@@ -9,26 +9,23 @@ from .managers import UserManager
 
 
 class User(AbstractUser, BaseModel):
-    first_name = models.CharField(_("First Name"), max_length=255, null=True, blank=True)
-    last_name = models.CharField(_("Last Name"), max_length=255, null=True, blank=True)
-    middle_name = models.CharField(_("Middle Name"), max_length=255, null=True, blank=True)
-    username = models.CharField(_("Username"), max_length=255, unique=True, null=True, blank=True)
-    email = models.EmailField(_("Email"), max_length=255, unique=True)
+    first_name = None
+    last_name = None
+    username = None
+    full_name = models.CharField(_("Full Name"), max_length=255, unique=True)
+    phone = models.CharField(_("Phone number"), max_length=13, unique=True)
     photo = models.ImageField(_("Photo"), upload_to="users/%Y/%m", blank=True, null=True)
 
     objects = UserManager()
-    USERNAME_FIELD = "email"
+    USERNAME_FIELD = "phone"
     REQUIRED_FIELDS = []  # type: ignore
 
     def __str__(self):
-        if self.email:
-            return self.email
-        if self.username:
-            return self.username
-
-    @property
-    def full_name(self):
-        return f"{self.first_name} {self.last_name}"
+        if self.full_name:
+            return self.full_name
+        if self.phone:
+            return self.phone
+        return "No Username"
 
     @property
     def tokens(self):

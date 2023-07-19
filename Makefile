@@ -15,4 +15,4 @@ createsuperuser:
 lint:
 	./bin/lint
 test:
-	python3 manage.py test
+	pytest -vv -s

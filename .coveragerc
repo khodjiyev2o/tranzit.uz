@@ -1,0 +1,14 @@
+[run]
+branch = True
+omit=
+    config/*
+    */tests/*
+    */migrations/*
+    *apps.py
+    manage.py
+    */venv/*
+    */site_packages/*
+    */__pycache__/*
+    apps/social_auth/*
+[html]
+directory = htmlcov
