@@ -12,7 +12,7 @@ class User(AbstractUser, BaseModel):
     first_name = None
     last_name = None
     username = None
-    full_name = models.CharField(_("Full Name"), max_length=255, unique=True)
+    full_name = models.CharField(_("Full Name"), max_length=255)
     phone = models.CharField(_("Phone number"), max_length=13, unique=True)
     photo = models.ImageField(_("Photo"), upload_to="users/%Y/%m", blank=True, null=True)
 

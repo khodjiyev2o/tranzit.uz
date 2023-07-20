@@ -37,19 +37,24 @@ class DriverStatus(models.TextChoices):
 
 
 class Driver(BaseModel):
-    user = models.OneToOneField(User, verbose_name=_("User"))
+    user = models.OneToOneField(User, verbose_name=_("User"), on_delete=models.CASCADE)
     # register info
-    city = models.CharField(choices=City.choices, default=City.Namangan, verbose_name=_("City"))
+    city = models.CharField(max_length=256, choices=City.choices, default=City.Namangan, verbose_name=_("City"))
     tex_passport = models.CharField(max_length=10, verbose_name=_("Tex Passport"))
     driving_license = models.CharField(max_length=9, verbose_name=_("Driving License"))
     car_model = models.CharField(max_length=256, verbose_name=_("Car Model"), choices=CarModel.choices)
     car_number = models.CharField(max_length=8, verbose_name=_("Car Number"))
-    car_category = models.CharField(verbose_name=_("Car Category"), choices=CarCategory.choices)
+    car_category = models.CharField(max_length=256, verbose_name=_("Car Category"), choices=CarCategory.choices)
     has_air_conditioner = models.BooleanField(default=True, verbose_name=_("Has Air Conditioner"))
     has_baggage = models.BooleanField(default=True, verbose_name=_("Has Baggage"))
     smoking_allowed = models.BooleanField(default=False, verbose_name=_("Smoking Allowed"))
     # driver status
-    status = models.CharField(verbose_name=_("Driver Status"), choices=DriverStatus.choices)
+    status = models.CharField(
+        max_length=256,
+        verbose_name=_("Driver Status"),
+        choices=DriverStatus.choices,
+        default=DriverStatus.IN_MODERATION,
+    )
     is_online = models.BooleanField(verbose_name=_("Is Online"), default=False)
     balance = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Driver Balance"), default=100000)
 

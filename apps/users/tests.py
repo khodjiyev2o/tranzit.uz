@@ -17,19 +17,14 @@ def test_user_manager_without_phone():
 
     assert str(exception_info.value) == "User must have a phone!"
 
-@pytest.mark.django_db
-def test_user_manager_without_phone():
-    with pytest.raises(ValueError) as exception_info:
-        User.objects.create_user(full_name="samandarkhodjiyev@gmail.com", phone=None)
-
-    assert str(exception_info.value) == "User must have a phone!"
 
 @pytest.mark.django_db
-def test_user_manager_without_phone():
+def test_user_manager_without_full_name():
     with pytest.raises(ValueError) as exception_info:
         User.objects.create_user(full_name=None, phone="+998913665113")
 
     assert str(exception_info.value) == "User must have a full name!"
+
 
 @pytest.mark.django_db
 def test_superuser_manager(client):
@@ -43,6 +38,7 @@ def test_create_superuser():
         User.objects.create_superuser(phone="+998913665113", full_name="Samandar", password=None)
 
     assert str(exception_info.value) == "Super User must have  password!"
+
 
 @pytest.mark.django_db
 def test_user_tokens(client):

@@ -21,6 +21,7 @@ ALLOWED_HOSTS = ["*"]
 LOCAL_APPS = [
     "apps.users.apps.UsersConfig",
     "apps.common.apps.CommonConfig",
+    "apps.driver.apps.DriverConfig",
 ]
 THIRD_PARTY_APPS = [
     "rest_framework",
@@ -88,7 +89,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = "ru"
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "Asia/Tashkent"
 
@@ -116,3 +117,24 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=5),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=99),
 }
+
+# swagger settings
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {"USE_SESSION_AUTH": False, "type": "apiKey", "name": "HTTP_AUTHORIZATION", "in": "header"}
+    }
+}
+
+# CACHES
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"{env.str('REDIS_URL', 'redis://localhost:6379/0')}",
+        "KEY_PREFIX": "tranzit-backend",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+
+TEST = env.str("TEST", False)

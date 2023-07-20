@@ -29,24 +29,18 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name="user",
             name="full_name",
-            field=models.CharField(
-                default=1, max_length=255, unique=True, verbose_name="Username"
-            ),
+            field=models.CharField(default=1, max_length=255, unique=True, verbose_name="Username"),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name="user",
             name="phone",
-            field=models.CharField(
-                default=1, max_length=13, unique=True, verbose_name="Phone number"
-            ),
+            field=models.CharField(default=1, max_length=13, unique=True, verbose_name="Phone number"),
             preserve_default=False,
         ),
         migrations.AlterField(
             model_name="user",
             name="email",
-            field=models.EmailField(
-                blank=True, max_length=254, verbose_name="email address"
-            ),
+            field=models.EmailField(blank=True, max_length=254, verbose_name="email address"),
         ),
     ]
