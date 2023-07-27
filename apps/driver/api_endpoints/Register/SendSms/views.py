@@ -12,7 +12,7 @@ from apps.driver.api_endpoints.Register.SendSms.serializers import (
     DriverRegisterSmsSerializer,
 )
 from apps.driver.models import Driver
-from apps.users.api_endpoints.utils import CacheTypes
+from helpers.cache import CacheTypes
 
 
 class DriverRegisterSendSMSView(GenericAPIView):

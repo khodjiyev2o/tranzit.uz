@@ -3,7 +3,7 @@ from django.core.cache import cache
 from django.urls import reverse
 from rest_framework import status
 
-from apps.users.api_endpoints.utils import CacheTypes, generate_cache_key
+from helpers.cache import CacheTypes, generate_cache_key
 
 
 @pytest.mark.django_db
@@ -25,3 +25,21 @@ def test_driver_send_sms_and_verify(client):
     response = client.post(url, data=data, content_type="application/json")
     assert response.status_code == status.HTTP_200_OK
     assert list(response.json().keys()) == ["access", "refresh"]
+
+
+@pytest.mark.django_db
+def test_driver_send_sms_wrong_code(client):
+    # send sms first
+    url = reverse("driver-register-send-sms")
+    payload = {
+        "phone": "+998996613344",
+    }
+    response = client.post(url, data=payload, content_type="application/json")
+    assert response.status_code == status.HTTP_200_OK
+
+    # verify phone via sms
+    url = reverse("driver-register-verify-phone")
+    data = {"code": 123456, "session": response.json()["session"], "phone": "+998996613344", "full_name": "Samandar"}
+    response = client.post(url, data=data, content_type="application/json")
+    assert response.json()["detail"] == "Wrong code!"
+    assert response.status_code == status.HTTP_400_BAD_REQUEST

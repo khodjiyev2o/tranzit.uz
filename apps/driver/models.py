@@ -32,7 +32,7 @@ class CarCategory(models.TextChoices):
 
 
 class DriverStatus(models.TextChoices):
-    IN_MODERATION = "In Moderation", _("In Moderation")
+    IN_MODERATION = "In_Moderation", _("In Moderation")
     ACTIVE = "Active", _("Active")
     BLOCKED = "Blocked", _("Blocked")
 
@@ -57,7 +57,7 @@ class Driver(BaseModel):
         default=DriverStatus.IN_MODERATION,
     )
     is_online = models.BooleanField(verbose_name=_("Is Online"), default=False)
-    balance = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Driver Balance"), default=100000)
+    balance = models.IntegerField(verbose_name=_("Driver Balance"), default=100000,)
 
     def __str__(self):
         return f"Driver| {self.user.full_name} - {self.balance}"

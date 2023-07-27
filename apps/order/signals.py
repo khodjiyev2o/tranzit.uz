@@ -11,7 +11,7 @@ from apps.order.models import Order
 def order_updated(sender, instance, created, **kwargs):
     channel_layer = get_channel_layer()
     if created:
-        # Prepare the order update message
+        # if new order is created
         data = {
             "type": "new_order",
             "data": OrderListSerializer(instance).data,
@@ -26,12 +26,19 @@ def order_updated(sender, instance, created, **kwargs):
                 "data": OrderListSerializer(instance).data,
             }
             async_to_sync(channel_layer.group_send)("orders", {"type": "delete_order", "data": data})
+            # if order is canceled by driver, or client canceled the ride
+        else:
+            data = {
+                "type": "new_order",
+                "data": OrderListSerializer(instance).data,
+            }
+            async_to_sync(channel_layer.group_send)("orders", {"type": "new_order", "data": data})
 
 
 @receiver(post_delete, sender=Order)
 def order_deleted(sender, instance, **kwargs):
     channel_layer = get_channel_layer()
-    # Prepare the order update message for order deletion
+    # if order is deleted fully
     data = {
         "type": "delete_order",
         "data": OrderListSerializer(instance).data,

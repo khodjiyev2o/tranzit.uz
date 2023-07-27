@@ -8,16 +8,16 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_404_NOT_FOUND
 
 from apps.common.utils import send_activation_code_via_sms
-from apps.driver.api_endpoints.Login.SendSMS.serializers import DriverLoginSmsSerializer
-from apps.driver.models import Driver
+from apps.users.api_endpoints.Login.serializers import UserLoginSmsSerializer
+from apps.users.models import User
 from helpers.cache import CacheTypes
 
 
-class DriverLoginSendSMSView(GenericAPIView):
-    serializer_class = DriverLoginSmsSerializer
+class UserLoginSendSMSView(GenericAPIView):
+    serializer_class = UserLoginSmsSerializer
 
     @swagger_auto_schema(
-        request_body=DriverLoginSmsSerializer,
+        request_body=UserLoginSmsSerializer,
         operation_description="""
             phone:  as like '+998913665113'
         """,
@@ -25,14 +25,14 @@ class DriverLoginSendSMSView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        # check if driver account already exists
-        if not self.driver_exists(request):
-            return Response({"success": False, "message": _("Driver not found!")}, status=HTTP_404_NOT_FOUND)
+        # check if user account already exists
+        if not self.user_exists(request):
+            return Response({"success": False, "message": _("User not found!")}, status=HTTP_404_NOT_FOUND)
 
         phone = serializer.validated_data.get("phone")
         session = get_random_string(length=16)
 
-        # check if SMS was sent to this phone  within 2 minutes for login or registration
+        # check if SMS was sent to this email  within 2 minutes for login or registration
         cache_keys = cache.keys(f"{CacheTypes.registration_sms_verification}{str(phone)}*")
         if cache_keys:
             raise ValidationError(detail={"phone": _("SMS is already sent!")}, code="timeout")
@@ -42,12 +42,12 @@ class DriverLoginSendSMSView(GenericAPIView):
         return Response({"session": session})
 
     @staticmethod
-    def driver_exists(request):
+    def user_exists(request):
         try:
-            Driver.objects.get(user__phone=request.data.get("phone"))
+            User.objects.get(phone=request.data.get("phone"))
             return True
-        except Driver.DoesNotExist:
+        except User.DoesNotExist:
             return False
 
 
-__all__ = ["DriverLoginSendSMSView"]
+__all__ = ["UserLoginSendSMSView"]

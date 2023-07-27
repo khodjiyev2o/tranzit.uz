@@ -21,9 +21,7 @@ class User(AbstractUser, BaseModel):
     REQUIRED_FIELDS = []  # type: ignore
 
     def __str__(self):
-        if self.phone:
-            return self.phone
-        return "No Username"
+        return str(self.phone)
 
     @property
     def tokens(self):

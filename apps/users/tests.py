@@ -1,5 +1,6 @@
 import pytest
 
+from apps.driver.models import Driver
 from apps.users.models import User
 
 
@@ -44,3 +45,9 @@ def test_user_model_str_method(client):
 
     new_user = User.objects.create(phone="+998913655113")
     assert User.__str__(new_user) == new_user.phone
+
+
+@pytest.mark.django_db
+def test_driver_model_str_method(client, new_driver):
+
+    assert Driver.__str__(new_driver) == f"Driver| {new_driver.user.full_name} - {new_driver.balance}"

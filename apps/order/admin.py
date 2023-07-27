@@ -1,10 +1,34 @@
 from django.contrib import admin
 
-from apps.order.models import Location, Order, Trip
+from apps.order.models import Location, Order, Trip, Request
 
 
 admin.site.register(Location)
 admin.site.register(Trip)
+
+
+@admin.register(Request)
+class RequestAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "client_full_name",
+        "driver_full_name",
+        "status",
+    )
+    list_display_links = ("id", "client_full_name")
+    list_filter = ("status", )
+    search_fields = (
+        "id",
+        "client_full_name",
+        "driver_full_name",
+    )
+
+    def client_full_name(self, obj):
+        return obj.order.client.full_name
+
+    def driver_full_name(self, obj):
+        return obj.driver.user.full_name
+
 
 
 @admin.register(Order)

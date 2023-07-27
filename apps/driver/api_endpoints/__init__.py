@@ -1,3 +1,5 @@
 from .Connect import *  # noqa
 from .Login import *  # noqa
+from .Profile import *  # noqa
 from .Register import *  # noqa
+from .Status import *  # noqa

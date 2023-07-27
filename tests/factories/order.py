@@ -12,10 +12,10 @@ class OrderFactory(factory.django.DjangoModelFactory):
 
     pick_up_address = factory.SubFactory("tests.factories.location.LocationFactory")
     drop_off_address = factory.SubFactory("tests.factories.location.LocationFactory")
-    status = factory.Faker("random_element", elements=Order.OrderStatus.choices)
+    status = Order.OrderStatus.REQUESTED
 
     car_category = CarCategory.COMFORT
-    price = factory.Faker("pyfloat", left_digits=2, right_digits=2, positive=True)
+    price = factory.Faker("pyint",  min_value=1000)
     seat = Order.Seat.BACK_LEFT
     type = Order.OrderType.PERSON
     delivery_user_phone = "+998913665113"

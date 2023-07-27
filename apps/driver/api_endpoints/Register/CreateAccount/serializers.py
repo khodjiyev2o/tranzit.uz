@@ -4,6 +4,8 @@ from apps.driver.models import Driver
 
 
 class CreateDriverAccountSerializer(serializers.ModelSerializer):
+    status = serializers.CharField(read_only=True)
+
     class Meta:
         model = Driver
         fields = (
@@ -16,4 +18,5 @@ class CreateDriverAccountSerializer(serializers.ModelSerializer):
             "has_air_conditioner",
             "has_baggage",
             "smoking_allowed",
+            "status",
         )

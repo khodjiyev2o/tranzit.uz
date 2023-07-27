@@ -22,10 +22,11 @@ class Location(BaseModel):
 
 class Order(BaseModel):
     class OrderStatus(models.TextChoices):
-        REQUESTED = "REQUESTED", _("REQUESTED")
-        IN_PROGRESS = "IN_PROGRESS", _("IN_PROGRESS")
-        COMPLETED = "COMPLETED", _("COMPLETED")
-        CANCELED = "CANCELED", _("CANCELED")
+        WAITING = "Waiting", _("Waiting")
+        REQUESTED = "Requested", _("Requested")
+        IN_PROGRESS = "In_Progress", _("In_Progress")
+        COMPLETED = "Completed", _("Completed")
+        CANCELED = "Canceled", _("Canceled")
 
     class Seat(models.TextChoices):
         FRONT_RIGHT = "front_right", _("FRONT RIGHT")
@@ -49,7 +50,7 @@ class Order(BaseModel):
     car_category = models.CharField(
         max_length=256, verbose_name=_("Car Category"), choices=CarCategory.choices, default=CarCategory.COMFORT
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Order Price"), default=120000)
+    price = models.IntegerField(verbose_name=_("Order Price"), default=120000)
     seat = models.CharField(max_length=256, choices=Seat.choices, verbose_name=_("Seat Choices"))
     type = models.CharField(
         max_length=256, verbose_name=_("Order Type"), choices=OrderType.choices, default=OrderType.PERSON
@@ -102,3 +103,19 @@ class Trip(BaseModel):
     class Meta:
         verbose_name = _("Trip")
         verbose_name_plural = _("Trips")
+
+
+class Request(BaseModel):
+    class RequestStatus(models.TextChoices):
+        WAITING = "Waiting", _("Waiting")
+        ACCEPTED = "Accepted", _("Accepted")
+        CANCELED = "Canceled", _("Canceled")
+
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_("Order"))
+    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name=_("Driver"))
+    status = models.CharField(max_length=256, choices=RequestStatus.choices, default=RequestStatus.WAITING)
+
+
+    class Meta:
+        verbose_name = _("Request")
+        verbose_name_plural = _("Requests")

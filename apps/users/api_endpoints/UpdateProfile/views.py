@@ -9,7 +9,6 @@ from apps.users.models import User
 
 class UserDetailUpdateView(RetrieveUpdateAPIView):
     serializer_class = UserRetrieveUpdateSerializer
-    queryset = User.objects.all()
     permission_classes = [IsAuthenticated]
 
     def get_object(self):
