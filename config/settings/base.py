@@ -22,11 +22,14 @@ LOCAL_APPS = [
     "apps.users.apps.UsersConfig",
     "apps.common.apps.CommonConfig",
     "apps.driver.apps.DriverConfig",
+    "apps.order.apps.OrderConfig",
 ]
 THIRD_PARTY_APPS = [
+    "daphne",
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
+    "django_filters",
 ]
 DJANGO_APPS = [
     "jazzmin",
@@ -39,7 +42,7 @@ DJANGO_APPS = [
 ]
 
 
-INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
+INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DJANGO_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -71,7 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "config.wsgi.application"
-
+ASGI_APPLICATION = "config.asgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -110,6 +113,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
+    "DEFAULT_FILTER_BACKENDS": (
+        "django_filters.rest_framework.DjangoFilterBackend",
+        "rest_framework.filters.SearchFilter",
+    ),
 }
 
 
@@ -136,5 +143,15 @@ CACHES = {
         },
     }
 }
+# CHANNELS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+
 
 TEST = env.str("TEST", False)

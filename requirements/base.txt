@@ -13,6 +13,9 @@ django-parler==2.3
 Pillow==9.5.0
 pre-commit==3.3.2
 eskiz-sms==0.2.3
+#filters
+django-filter==23.2
+
 # testing
 factory-boy==3.2.1
 model_bakery==1.11.0
@@ -24,4 +27,9 @@ pytest-factoryboy==2.5.1
 pytest-env==0.8.2
 # caches
 django-redis==5.2.0
-redis==4.4.2
+redis==4.5.3
+
+#channels
+daphne==4.0.0
+channels==4.0.0
+channels_redis==4.1.0

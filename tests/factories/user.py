@@ -16,7 +16,7 @@ class SuperUserFactory(factory.django.DjangoModelFactory):
         model = User
 
     full_name = factory.Faker("word")
-    phone = "+998913665113"
+    phone = "+998913582680"
     password = "strong_password_123"
     is_active = True
     is_superuser = True

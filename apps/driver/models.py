@@ -7,6 +7,7 @@ from apps.users.models import User
 
 class City(models.TextChoices):
     Namangan = "Namangan", _("Namangan")
+    Tashkent = "Tashkent", _("Tashkent")
 
 
 class CarModel(models.TextChoices):
@@ -37,7 +38,7 @@ class DriverStatus(models.TextChoices):
 
 
 class Driver(BaseModel):
-    user = models.OneToOneField(User, verbose_name=_("User"), on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name=_("User"), on_delete=models.CASCADE, related_name="driver")
     # register info
     city = models.CharField(max_length=256, choices=City.choices, default=City.Namangan, verbose_name=_("City"))
     tex_passport = models.CharField(max_length=10, verbose_name=_("Tex Passport"))
@@ -59,7 +60,7 @@ class Driver(BaseModel):
     balance = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Driver Balance"), default=100000)
 
     def __str__(self):
-        return f"Driver| {self.user.username} - {self.balance}"
+        return f"Driver| {self.user.full_name} - {self.balance}"
 
     class Meta:
         verbose_name = _("Driver")

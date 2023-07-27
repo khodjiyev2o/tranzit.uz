@@ -21,8 +21,6 @@ class User(AbstractUser, BaseModel):
     REQUIRED_FIELDS = []  # type: ignore
 
     def __str__(self):
-        if self.full_name:
-            return self.full_name
         if self.phone:
             return self.phone
         return "No Username"
