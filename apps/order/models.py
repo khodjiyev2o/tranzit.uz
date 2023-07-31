@@ -115,7 +115,6 @@ class Request(BaseModel):
     driver = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name=_("Driver"))
     status = models.CharField(max_length=256, choices=RequestStatus.choices, default=RequestStatus.WAITING)
 
-
     class Meta:
         verbose_name = _("Request")
         verbose_name_plural = _("Requests")

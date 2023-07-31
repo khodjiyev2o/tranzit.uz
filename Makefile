@@ -5,7 +5,7 @@
 hello:
 	echo "Hello, World"
 run:
-	python3 manage.py runserver
+	python3 manage.py runserver 0.0.0.0:8000
 migrations:
 	python3 manage.py makemigrations
 migrate:

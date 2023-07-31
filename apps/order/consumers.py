@@ -1,6 +1,4 @@
-# chat/consumers.py
 import json
-
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 
@@ -9,7 +7,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         self.user = self.scope["user"]
-
         await self.channel_layer.group_add(self.driver_group_name, self.channel_name)
         await self.accept()
 
