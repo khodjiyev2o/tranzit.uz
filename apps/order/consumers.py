@@ -1,14 +1,19 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.contrib.auth.models import AnonymousUser
 
 
 class ChatConsumer(AsyncWebsocketConsumer):
     driver_group_name = "orders"
 
     async def connect(self):
-        self.user = self.scope["user"]
-        await self.channel_layer.group_add(self.driver_group_name, self.channel_name)
+        user = self.scope["user"]
         await self.accept()
+        if user == AnonymousUser():
+            """If token is expired or not provided"""
+            await self.close(code=4001)
+
+        await self.channel_layer.group_add(self.driver_group_name, self.channel_name)
 
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(self.driver_group_name, self.channel_name)

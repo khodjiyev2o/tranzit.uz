@@ -4,12 +4,12 @@ from channels.middleware import BaseMiddleware
 from django.contrib.auth.models import AnonymousUser
 from rest_framework_simplejwt.authentication import JWTTokenUserAuthentication
 from apps.users.models import User
-from rest_framework.exceptions import AuthenticationFailed
-
+from rest_framework_simplejwt.exceptions import InvalidToken
 
 @database_sync_to_async
 def get_user(validated_token):
     try:
+        print("User id", validated_token["user_id"])
         return User.objects.get(id=validated_token["user_id"])
     except User.DoesNotExist:
         return AnonymousUser()
@@ -26,20 +26,10 @@ class JwtAuthMiddleware(BaseMiddleware):
                 raw_token=query.get("token")
             )
             scope["user"] = await get_user(validated_token=validated_token)
-        except AuthenticationFailed:
-            response = {"detail": "Authentication credentials were not provided."}
-            await self.send_response(send, response, status=401)
-            return
-
+        except InvalidToken:
+            scope["user"] = AnonymousUser()
+        print("scope", scope['user'])
         return await super().__call__(scope, receive, send)
-
-    async def send_response(self, send, response, status):
-        # Send the JSON response with the specified status code
-        await send({
-            "type": "websocket.close",
-            "code": status,
-            "text": response,
-        })
 
 
 def JwtAuthMiddlewareStack(inner):

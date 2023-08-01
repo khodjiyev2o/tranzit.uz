@@ -13,9 +13,10 @@
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxMjIyNTk0LCJpYXQiOjE2OTA3OTA1OTQsImp0aSI6ImEzMDAwZTgwYzE0ODQ5MTc5NjJhNWE3NGQwMzg3NDI1IiwidXNlcl9pZCI6NX0.CaVmi_6DizCZy0gobFgCYl3MSPDtDOB0H70ANBMbmoY"
+        const token1 = "sadasdas"
         const chatSocket = new WebSocket(
             'ws://'
-            + '0.0.0.0:8000/ws/driver/connect/'+ "?token=" + token
+            + '0.0.0.0:8000/ws/driver/connect/'+ "?token=" + token1
         );
 
 
@@ -27,7 +28,13 @@
         };
 
         chatSocket.onclose = function(e) {
+            console.log(e)
             console.error('Chat socket closed unexpectedly');
+        };
+
+            chatSocket.onerror = function(e) {
+            console.log(e)
+            console.error('Chat socket closed errro');
         };
 
         document.querySelector('#chat-message-input').focus();
