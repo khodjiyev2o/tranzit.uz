@@ -2,7 +2,7 @@ from rest_framework.generics import ListAPIView
 
 from apps.order.api_endpoints.List.serializers import OrderListSerializer
 from apps.order.models import Order
-from helpers.permissions import IsDriver, DriverHasEnoughBalance
+from helpers.permissions import DriverHasEnoughBalance, IsDriver
 
 
 class OrderListView(ListAPIView):

@@ -33,6 +33,7 @@ def order_updated(sender, instance, created, **kwargs):
 
         async_to_sync(channel_layer.group_send)("orders", {"type": "new_order", "data": data})
 
+
 @receiver(post_delete, sender=Order)
 def order_deleted(sender, instance, **kwargs):
     channel_layer = get_channel_layer()
@@ -47,9 +48,13 @@ def order_deleted(sender, instance, **kwargs):
 @receiver(post_save, sender=Request)
 def request_created(sender, instance, created, **kwargs):
     channel_layer = get_channel_layer()
+    print("Signal is working")
     if created:
         # if new requst is created
         data = {
             "type": "new_request_to_driver",
-            "data": OrderListSerializer(instance).data,
+            "data": OrderListSerializer(instance.order).data,
         }
+        async_to_sync(channel_layer.group_send)(
+            f"driver_personal_group_{instance.driver.user.id}", {"type": "new_request", "data": data}
+        )

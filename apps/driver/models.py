@@ -57,7 +57,10 @@ class Driver(BaseModel):
         default=DriverStatus.IN_MODERATION,
     )
     is_online = models.BooleanField(verbose_name=_("Is Online"), default=False)
-    balance = models.IntegerField(verbose_name=_("Driver Balance"), default=100000,)
+    balance = models.IntegerField(
+        verbose_name=_("Driver Balance"),
+        default=100000,
+    )
 
     def __str__(self):
         return f"Driver| {self.user.full_name} - {self.balance}"

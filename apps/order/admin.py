@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.order.models import Location, Order, Trip, Request
+from apps.order.models import Location, Order, Request, Trip
 
 
 admin.site.register(Location)
@@ -16,7 +16,7 @@ class RequestAdmin(admin.ModelAdmin):
         "status",
     )
     list_display_links = ("id", "client_full_name")
-    list_filter = ("status", )
+    list_filter = ("status",)
     search_fields = (
         "id",
         "client_full_name",
@@ -28,7 +28,6 @@ class RequestAdmin(admin.ModelAdmin):
 
     def driver_full_name(self, obj):
         return obj.driver.user.full_name
-
 
 
 @admin.register(Order)

@@ -15,7 +15,7 @@ class OrderFactory(factory.django.DjangoModelFactory):
     status = Order.OrderStatus.REQUESTED
 
     car_category = CarCategory.COMFORT
-    price = factory.Faker("pyint",  min_value=1000)
+    price = factory.Faker("pyint", min_value=1000)
     seat = Order.Seat.BACK_LEFT
     type = Order.OrderType.PERSON
     delivery_user_phone = "+998913665113"

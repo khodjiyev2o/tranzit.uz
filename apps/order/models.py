@@ -80,19 +80,21 @@ class Trip(BaseModel):
         COMPLETED = "COMPLETED", _("COMPLETED")
 
     driver = models.ForeignKey(Driver, verbose_name=_("Driver"), on_delete=models.CASCADE)
-    front_right_seat = models.ForeignKey(
+    front_right_seat = models.OneToOneField(
         Order, models.SET_NULL, verbose_name=_("FRONT RIGHT"), related_name="front_trip", null=True, blank=True
     )
-    back_left_seat = models.ForeignKey(
+    back_left_seat = models.OneToOneField(
         Order, models.SET_NULL, related_name="back_left_trip", verbose_name=_("BACK LEFT"), null=True, blank=True
     )
-    back_middle_seat = models.ForeignKey(
+    back_middle_seat = models.OneToOneField(
         Order, models.SET_NULL, related_name="back_middle_trip", verbose_name=_("BACK MIDDLE"), null=True, blank=True
     )
-    back_right_seat = models.ForeignKey(
+    back_right_seat = models.OneToOneField(
         Order, models.SET_NULL, related_name="back_right_trip", verbose_name=_("BACK RIGHT"), null=True, blank=True
     )
-    delivery = models.ManyToManyField(Order, verbose_name=_("Delivery"), related_name="questions")
+    delivery = models.ManyToManyField(
+        Order, verbose_name=_("Delivery"), related_name="deliveries", null=True, blank=True
+    )
     status = models.CharField(
         max_length=256, choices=TripStatus.choices, default=TripStatus.ACTIVE, verbose_name=_("Status")
     )
@@ -112,7 +114,7 @@ class Request(BaseModel):
         CANCELED = "Canceled", _("Canceled")
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, verbose_name=_("Order"))
-    driver = models.ForeignKey(Driver, on_delete=models.CASCADE, verbose_name=_("Driver"))
+    driver = models.OneToOneField(Driver, on_delete=models.CASCADE, verbose_name=_("Driver"))
     status = models.CharField(max_length=256, choices=RequestStatus.choices, default=RequestStatus.WAITING)
 
     class Meta:

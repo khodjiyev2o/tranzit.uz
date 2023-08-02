@@ -12,11 +12,11 @@
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxMjIyNTk0LCJpYXQiOjE2OTA3OTA1OTQsImp0aSI6ImEzMDAwZTgwYzE0ODQ5MTc5NjJhNWE3NGQwMzg3NDI1IiwidXNlcl9pZCI6NX0.CaVmi_6DizCZy0gobFgCYl3MSPDtDOB0H70ANBMbmoY"
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjkxMzg2MjA0LCJpYXQiOjE2OTA5NTQyMDQsImp0aSI6IjhmZTcwNmYzZTBlMDQ3ZGM5NzMyMmE2YTgzZjJjM2JiIiwidXNlcl9pZCI6MTB9.Avhr5S2e8ZapRr4kC-gwHo4H8bn3_et5nHq886keeyE"
         const token1 = "sadasdas"
         const chatSocket = new WebSocket(
             'ws://'
-            + '0.0.0.0:8000/ws/driver/connect/'+ "?token=" + token1
+            + '0.0.0.0:8000/ws/driver/connect/'+ "?token=" + token
         );
 
 
