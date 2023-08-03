@@ -9,10 +9,7 @@ class TripFactory(factory.django.DjangoModelFactory):
         model = Trip
 
     driver = factory.SubFactory("tests.factories.driver.DriverFactory")
-    front_right_seat = factory.SubFactory("tests.factories.order.OrderFactory")
-    back_left_seat = factory.SubFactory("tests.factories.order.OrderFactory")
-    back_middle_seat = factory.SubFactory("tests.factories.order.OrderFactory")
-    back_right_seat = factory.SubFactory("tests.factories.order.OrderFactory")
+    client = factory.RelatedFactoryList(OrderFactory, size=4)
     delivery = factory.RelatedFactoryList(
         OrderFactory,
         size=4,

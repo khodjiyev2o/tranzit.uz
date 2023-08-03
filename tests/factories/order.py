@@ -16,7 +16,11 @@ class OrderFactory(factory.django.DjangoModelFactory):
 
     car_category = CarCategory.COMFORT
     price = factory.Faker("pyint", min_value=1000)
-    seat = Order.Seat.BACK_LEFT
+    number_of_people = 1
+    front_right = True
+    back_left = False
+    back_middle = False
+    back_right = False
     type = Order.OrderType.PERSON
     delivery_user_phone = "+998913665113"
     approximate_leave_time = factory.Faker("date")

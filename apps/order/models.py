@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -28,12 +29,6 @@ class Order(BaseModel):
         COMPLETED = "Completed", _("Completed")
         CANCELED = "Canceled", _("Canceled")
 
-    class Seat(models.TextChoices):
-        FRONT_RIGHT = "front_right", _("FRONT RIGHT")
-        BACK_LEFT = "back_left", _("BACK LEFT")
-        BACK_MIDDLE = "back_middle", _("BACK MIDDLE")
-        BACK_RIGHT = "back_right", _("BACK RIGHT")
-
     class OrderType(models.TextChoices):
         PERSON = "PERSON", _("PERSON")
         DELIVERY = "DELIVERY", _("DELIVERY")
@@ -51,7 +46,11 @@ class Order(BaseModel):
         max_length=256, verbose_name=_("Car Category"), choices=CarCategory.choices, default=CarCategory.COMFORT
     )
     price = models.IntegerField(verbose_name=_("Order Price"), default=120000)
-    seat = models.CharField(max_length=256, choices=Seat.choices, verbose_name=_("Seat Choices"))
+    number_of_people = models.IntegerField(default=1, verbose_name=_("Number Of People"))
+    front_right = models.BooleanField(default=False, verbose_name=_("FRONT RIGHT"))
+    back_left = models.BooleanField(default=False, verbose_name=_("BACK LEFT"))
+    back_middle = models.BooleanField(default=False, verbose_name=_("BACK MIDDLE"))
+    back_right = models.BooleanField(default=False, verbose_name=_("BACK RIGHT"))
     type = models.CharField(
         max_length=256, verbose_name=_("Order Type"), choices=OrderType.choices, default=OrderType.PERSON
     )
@@ -69,6 +68,22 @@ class Order(BaseModel):
     def __str__(self):
         return f"{self.client.full_name} | {self.pick_up_address.street}"
 
+    def clean(self):
+        """To control the number of people and seats that they occupy"""
+        if self.type == Order.OrderType.PERSON:
+            number_of_seats = sum([self.front_right, self.back_left, self.back_middle, self.back_right])
+            if number_of_seats != self.number_of_people:
+                raise ValidationError(
+                    _(f"For {self.number_of_people} person, {self.number_of_people} seats must be selected.")
+                )
+        else:
+            if not self.delivery_user_phone:
+                raise ValidationError(_("Phone number is required for delivery orders."))
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(Order, self).save(*args, **kwargs)
+
     class Meta:
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
@@ -77,23 +92,23 @@ class Order(BaseModel):
 class Trip(BaseModel):
     class TripStatus(models.TextChoices):
         ACTIVE = "ACTIVE", _("ACTIVE")
+        IN_PROCESS = "IN_PROCESS", _("IN_PROCESS")
         COMPLETED = "COMPLETED", _("COMPLETED")
 
     driver = models.ForeignKey(Driver, verbose_name=_("Driver"), on_delete=models.CASCADE)
-    front_right_seat = models.OneToOneField(
-        Order, models.SET_NULL, verbose_name=_("FRONT RIGHT"), related_name="front_trip", null=True, blank=True
-    )
-    back_left_seat = models.OneToOneField(
-        Order, models.SET_NULL, related_name="back_left_trip", verbose_name=_("BACK LEFT"), null=True, blank=True
-    )
-    back_middle_seat = models.OneToOneField(
-        Order, models.SET_NULL, related_name="back_middle_trip", verbose_name=_("BACK MIDDLE"), null=True, blank=True
-    )
-    back_right_seat = models.OneToOneField(
-        Order, models.SET_NULL, related_name="back_right_trip", verbose_name=_("BACK RIGHT"), null=True, blank=True
+    client = models.ManyToManyField(
+        Order,
+        verbose_name=_("Person Orders"),
+        related_name="person_orders",
+        blank=True,
+        limit_choices_to={"type__in": [Order.OrderType.PERSON]},
     )
     delivery = models.ManyToManyField(
-        Order, verbose_name=_("Delivery"), related_name="deliveries", null=True, blank=True
+        Order,
+        verbose_name=_("Delivery"),
+        related_name="deliveries",
+        blank=True,
+        limit_choices_to={"type__in": [Order.OrderType.DELIVERY]},
     )
     status = models.CharField(
         max_length=256, choices=TripStatus.choices, default=TripStatus.ACTIVE, verbose_name=_("Status")
@@ -101,6 +116,10 @@ class Trip(BaseModel):
 
     def __str__(self):
         return f"{self.driver.user.full_name} | {self.status}"
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(Trip, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name = _("Trip")

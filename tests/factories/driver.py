@@ -19,5 +19,6 @@ class DriverFactory(factory.django.DjangoModelFactory):
     has_baggage = True
     smoking_allowed = False
     # driver status
-    status = factory.Faker("random_element", elements=DriverStatus.choices)
+    status = DriverStatus.ACTIVE
     is_online = True
+    balance = 50000

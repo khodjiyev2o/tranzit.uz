@@ -6,4 +6,4 @@ from apps.driver.models import Driver
 class DriverStatusSerializer(ModelSerializer):
     class Meta:
         model = Driver
-        fields = ("status",)
+        fields = ("status", "is_online")
