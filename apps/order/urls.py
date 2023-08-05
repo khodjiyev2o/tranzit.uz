@@ -8,6 +8,7 @@ from apps.order.api_endpoints import (
     OrderDetailView,
     OrderListView,
     DriverTripStartView,
+    DriverTripCompleteView,
 )
 from apps.order.consumers import ChatConsumer
 
@@ -22,5 +23,6 @@ urlpatterns = [
     path("accept/", OrderAcceptView.as_view(), name="order-accept"),
     path("cancel/", OrderCancelView.as_view(), name="order-cancel"),
     path("trip/start/", DriverTripStartView.as_view(), name="driver-trip-start"),
+    path("trip/complete/", DriverTripCompleteView.as_view(), name="driver-trip-complete"),
     path("<int:pk>/", OrderDetailView.as_view(), name="order-detail"),
 ]
