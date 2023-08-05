@@ -1,4 +1,4 @@
-from django.db.models import Q, Sum
+from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -19,13 +19,21 @@ class OrderAcceptView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        order_id = serializer.validated_data["order_id"]
+        order = serializer.validated_data["order"]
         trip = self.get_queryset()
 
-        try:
-            order = Order.objects.get(pk=order_id)
-        except Order.DoesNotExist:
-            return Response({"detail": "Order not found."}, status=status.HTTP_404_NOT_FOUND)
+        for previous_client_order in trip.client.all():
+            if previous_client_order.pick_up_address.city != order.pick_up_address.city:
+                return Response(
+                    {"detail": _("All client orders and deliveries should have the same pick-up address.")},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+        for delivery in trip.delivery.all():
+            if delivery.pick_up_address.city != order.pick_up_address.city:
+                return Response(
+                    {"detail": _("All client orders and deliveries should have the same pick-up address.")},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         if order.type == Order.OrderType.PERSON:
             # Check if the order's seats conflict with other orders
@@ -36,12 +44,13 @@ class OrderAcceptView(generics.GenericAPIView):
                 | Q(back_right=order.back_right)
             ).exists()
             if conflicting_seats:
-                return Response({"detail": "Seats conflict with another order"}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({"detail": _("Seats conflict with another order")}, status=status.HTTP_400_BAD_REQUEST)
 
             trip.client.add(order)
         else:
             trip.delivery.add(order)
 
+        order.taken_by_driver()
         return Response({"message": _("Order added to trip successfully.")}, status=status.HTTP_200_OK)
 
 

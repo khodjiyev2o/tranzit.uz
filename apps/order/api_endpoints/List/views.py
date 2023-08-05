@@ -11,7 +11,9 @@ class OrderListView(ListAPIView):
     filterset_fields = ("pick_up_address__city",)
 
     def get_queryset(self):
-        return Order.objects.filter(status=Order.OrderStatus.REQUESTED)
+        return Order.objects.filter(status=Order.OrderStatus.REQUESTED).select_related(
+            "client", "pick_up_address", "drop_off_address"
+        )
 
 
 __all__ = ["OrderListView"]

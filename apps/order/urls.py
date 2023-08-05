@@ -2,7 +2,13 @@
 from django.urls import path, re_path
 
 from apps.driver.api_endpoints import index
-from apps.order.api_endpoints import OrderAcceptView, OrderListView
+from apps.order.api_endpoints import (
+    OrderAcceptView,
+    OrderCancelView,
+    OrderDetailView,
+    OrderListView,
+    DriverTripStartView,
+)
 from apps.order.consumers import ChatConsumer
 
 
@@ -11,7 +17,10 @@ websocket_urlpatterns = [
 ]
 
 urlpatterns = [
+    path("", OrderListView.as_view(), name="order-list"),
     path("template/", index, name="index"),
     path("accept/", OrderAcceptView.as_view(), name="order-accept"),
-    path("", OrderListView.as_view(), name="order-list"),
+    path("cancel/", OrderCancelView.as_view(), name="order-cancel"),
+    path("trip/start/", DriverTripStartView.as_view(), name="driver-trip-start"),
+    path("<int:pk>/", OrderDetailView.as_view(), name="order-detail"),
 ]

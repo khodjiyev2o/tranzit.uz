@@ -4,13 +4,13 @@ from rest_framework import serializers
 from apps.order.models import Order
 
 
-class DriverOrderAcceptSerializer(serializers.Serializer):
+class DriverOrderCancelSerializer(serializers.Serializer):
     order = serializers.IntegerField()
 
     def validate_order(self, order_id):
         try:
-            order = Order.objects.get(pk=order_id, status=Order.OrderStatus.REQUESTED)
+            order = Order.objects.get(pk=order_id, status=Order.OrderStatus.IN_PROGRESS)
         except Order.DoesNotExist:
-            raise serializers.ValidationError(_("Order not found or already taken by another driver."))
+            raise serializers.ValidationError(_("Order not found or already canceled."))
 
         return order

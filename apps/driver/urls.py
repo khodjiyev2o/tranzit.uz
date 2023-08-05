@@ -9,6 +9,7 @@ from apps.driver.api_endpoints import (
     DriverRegisterSendSMSView,
     DriverRetrieveUpdateProfileView,
     DriverStatusView,
+    DriverTripRetrieveView,
 )
 
 
@@ -21,4 +22,5 @@ urlpatterns = [
     path("offline-status/", DriverOfflineStateView.as_view(), name="driver-offline-status"),
     path("status/", DriverStatusView.as_view(), name="driver-status"),
     path("profile/", DriverRetrieveUpdateProfileView.as_view(), name="driver-profile-retrieve-update"),
+    path("trip/", DriverTripRetrieveView.as_view(), name="driver-trip-retrieve"),
 ]

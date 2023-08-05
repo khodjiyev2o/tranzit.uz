@@ -4,7 +4,6 @@ from apps.order.models import Location, Order, Request, Trip
 
 
 admin.site.register(Location)
-admin.site.register(Trip)
 
 
 @admin.register(Request)
@@ -58,3 +57,20 @@ class OrderAdmin(admin.ModelAdmin):
 
     def client_drop_off_address(self, obj):
         return f"{obj.drop_off_address.city} | {obj.drop_off_address.street}"
+
+
+@admin.register(Trip)
+class TriprAdmin(admin.ModelAdmin):
+    list_display = ("id", "driver_full_name", "status")
+    list_display_links = (
+        "id",
+        "driver_full_name",
+    )
+    search_fields = (
+        "id",
+        "driver_full_name",
+        "status",
+    )
+
+    def driver_full_name(self, obj):
+        return obj.driver.user.full_name

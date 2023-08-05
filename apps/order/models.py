@@ -84,6 +84,14 @@ class Order(BaseModel):
         self.full_clean()
         return super(Order, self).save(*args, **kwargs)
 
+    def taken_by_driver(self):
+        self.status = self.OrderStatus.IN_PROGRESS
+        self.save()
+
+    def canceled_by_driver(self):
+        self.status = self.OrderStatus.REQUESTED
+        self.save()
+
     class Meta:
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
@@ -116,6 +124,16 @@ class Trip(BaseModel):
 
     def __str__(self):
         return f"{self.driver.user.full_name} | {self.status}"
+
+    def clean(self):
+        # 1st - validation
+        if not self.pk:
+            # If there are no orders or deliveries in the trip, no validation is needed
+            return
+
+        if self.status == Trip.TripStatus.ACTIVE:
+            if Trip.objects.filter(driver=self.driver, status=Trip.TripStatus.ACTIVE).exclude(pk=self.pk).exists():
+                raise ValidationError(_("Only One trip at a time"))
 
     def save(self, *args, **kwargs):
         self.full_clean()
