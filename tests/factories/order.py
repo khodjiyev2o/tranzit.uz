@@ -23,6 +23,7 @@ class OrderFactory(factory.django.DjangoModelFactory):
     back_right = False
     type = Order.OrderType.PERSON
     delivery_user_phone = "+998913665113"
+    delivery_type = "document"
     approximate_leave_time = factory.Faker("date")
     comment = factory.Faker("word")
     has_air_conditioner = True

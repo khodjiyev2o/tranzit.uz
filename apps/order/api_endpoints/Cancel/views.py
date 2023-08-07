@@ -24,18 +24,18 @@ class OrderCancelView(generics.GenericAPIView):
         if order.type == Order.OrderType.PERSON:
             if trip.client.filter(id=order.id).exists():
                 trip.client.remove(order)  # removing from driver's trip
-                order.canceled_by_driver()  # returning to the REQUESTED state
-                return Response({_("Successfully removed")}, status=status.HTTP_204_NO_CONTENT)
+                order.canceled_by_driver()  # returning to the requested state
+                return Response({"message": _("Successfully removed")}, status=status.HTTP_200_OK)
             else:
-                return Response({_("Order does not exist on your trip")}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": _("Order does not exist on your trip")}, status=status.HTTP_404_NOT_FOUND)
 
-        elif order.type == Order.OrderType.DELIVERY:
+        else:
             if trip.delivery.filter(id=order.id).exists():
                 trip.delivery.remove(order)
                 order.canceled_by_driver()
-                return Response({_("Successfully removed")}, status=status.HTTP_204_NO_CONTENT)
+                return Response({"message": _("Successfully removed")}, status=status.HTTP_200_OK)
             else:
-                return Response({_("Order does not exist on your trip")}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"message": _("Order does not exist on your trip")}, status=status.HTTP_404_NOT_FOUND)
 
 
 __all__ = ["OrderCancelView"]

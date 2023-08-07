@@ -37,4 +37,5 @@ class OrderDetailSerializer(serializers.ModelSerializer):
             "price",
             "type",
             "delivery_user_phone",
+            "delivery_type",
         )

@@ -1,8 +1,9 @@
-from rest_framework.generics import GenericAPIView
-from helpers.permissions import CustomDriverPermission
-from apps.order.models import Trip
-from rest_framework import status, response
 from django.shortcuts import get_object_or_404
+from rest_framework import response, status
+from rest_framework.generics import GenericAPIView
+
+from apps.order.models import Trip
+from helpers.permissions import CustomDriverPermission
 
 
 class DriverTripCompleteView(GenericAPIView):
@@ -15,8 +16,8 @@ class DriverTripCompleteView(GenericAPIView):
         instance = self.get_object()
         instance.status = Trip.TripStatus.COMPLETED
         instance.save()
-        #need to return the overall price  and cheque
+        # need to return the overall price  and cheque
         return response.Response({"Successfully completed the trip"}, status=status.HTTP_200_OK)
 
 
-__all__ = ['DriverTripCompleteView']
+__all__ = ["DriverTripCompleteView"]

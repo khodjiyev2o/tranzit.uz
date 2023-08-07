@@ -1,6 +1,6 @@
 from rest_framework.generics import RetrieveAPIView
 
-from apps.driver.api_endpoints.Trip.serializers import DriverTripSerializer
+from apps.driver.api_endpoints.Trip.Retrieve.serializers import DriverTripSerializer
 from apps.order.models import Trip
 from helpers.permissions import CustomDriverPermission
 

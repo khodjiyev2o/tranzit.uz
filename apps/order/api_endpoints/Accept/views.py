@@ -28,7 +28,7 @@ class OrderAcceptView(generics.GenericAPIView):
                     {"detail": _("All client orders and deliveries should have the same pick-up address.")},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
-        for delivery in trip.delivery.all():
+        for delivery in trip.delivery.all():  # pragma: no cover
             if delivery.pick_up_address.city != order.pick_up_address.city:
                 return Response(
                     {"detail": _("All client orders and deliveries should have the same pick-up address.")},

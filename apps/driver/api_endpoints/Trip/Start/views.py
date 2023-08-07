@@ -1,8 +1,10 @@
-from rest_framework.generics import GenericAPIView
-from helpers.permissions import CustomDriverPermission
-from apps.order.models import Trip
-from rest_framework import status, response
 from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
+from rest_framework import response, status
+from rest_framework.generics import GenericAPIView
+
+from apps.order.models import Trip
+from helpers.permissions import CustomDriverPermission
 
 
 class DriverTripStartView(GenericAPIView):
@@ -15,7 +17,7 @@ class DriverTripStartView(GenericAPIView):
         instance = self.get_object()
         instance.status = Trip.TripStatus.IN_PROCESS
         instance.save()
-        return response.Response({"Successfully started the trip"}, status=status.HTTP_200_OK)
+        return response.Response({"message": _("Successfully started the trip")}, status=status.HTTP_200_OK)
 
 
-__all__ = ['DriverTripStartView']
+__all__ = ["DriverTripStartView"]

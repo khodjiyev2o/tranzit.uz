@@ -4,7 +4,7 @@ from django.urls import reverse
 
 @pytest.mark.django_db
 def test_get_profile(client, new_driver):
-    url = reverse("driver-profile-retrieve-update")
+    url = reverse("driver-profile-retrieve")
     headers = {"HTTP_AUTHORIZATION": f"Bearer {new_driver.user.tokens.get('access')}"}
     response = client.get(url, **headers)
     assert response.status_code == 200

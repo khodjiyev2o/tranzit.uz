@@ -20,13 +20,13 @@ class DriverTripClientSerializer(serializers.ModelSerializer):
 
     def get_seats(self, obj):
         chosen_seats = []
-        if obj.front_right:
+        if obj.front_right is True:
             chosen_seats.append("front_right")
-        if obj.back_left:
+        if obj.back_left is True:
             chosen_seats.append("back_left")
-        if obj.back_middle:
+        if obj.back_middle is True:
             chosen_seats.append("back_middle")
-        if obj.back_right:
+        if obj.back_right is True:
             chosen_seats.append("back_right")
         return chosen_seats
 
@@ -34,7 +34,7 @@ class DriverTripClientSerializer(serializers.ModelSerializer):
 class DriverTripDeliverySerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ("id", "delivery_user_phone", "price", "approximate_leave_time")
+        fields = ("id", "delivery_user_phone", "delivery_type", "price", "approximate_leave_time")
 
 
 class DriverTripSerializer(serializers.ModelSerializer):

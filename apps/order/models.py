@@ -33,6 +33,13 @@ class Order(BaseModel):
         PERSON = "PERSON", _("PERSON")
         DELIVERY = "DELIVERY", _("DELIVERY")
 
+    class DeliveryType(models.TextChoices):
+        DOCUMENT = "document", _("document")
+        MONEY = "money", _("money")
+        BOX = "box", _("box")
+        DISHES = "dishes", _("dishes")
+        SECRET = "secret", _("secret")
+
     pick_up_address = models.ForeignKey(
         Location, on_delete=models.SET_NULL, null=True, blank=True, related_name="pickup_address"
     )
@@ -55,6 +62,14 @@ class Order(BaseModel):
         max_length=256, verbose_name=_("Order Type"), choices=OrderType.choices, default=OrderType.PERSON
     )
     delivery_user_phone = models.CharField(_("Phone number"), max_length=13, null=True, blank=True)
+    delivery_type = models.CharField(
+        max_length=256,
+        verbose_name=_("Delivery Type"),
+        choices=DeliveryType.choices,
+        default=DeliveryType.DOCUMENT,
+        null=True,
+        blank=True,
+    )
     approximate_leave_time = models.DateTimeField(verbose_name=_("Approximate Leave Time "))
     comment = models.CharField(max_length=256, verbose_name=_("Comment"), null=True, blank=True)
     has_air_conditioner = models.BooleanField(default=True, verbose_name=_("Has Air Conditioner"))
@@ -77,8 +92,8 @@ class Order(BaseModel):
                     _(f"For {self.number_of_people} person, {self.number_of_people} seats must be selected.")
                 )
         else:
-            if not self.delivery_user_phone:
-                raise ValidationError(_("Phone number is required for delivery orders."))
+            if not self.delivery_user_phone or not self.delivery_type:
+                raise ValidationError(_("Phone number and delivery type is required for delivery orders."))
 
     def save(self, *args, **kwargs):
         self.full_clean()
