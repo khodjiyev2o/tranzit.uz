@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.driver.models import Driver
+from apps.order.api_endpoints.List.serializers import LocationSerializer
 from apps.order.models import Order, Trip
 
 
@@ -13,10 +14,20 @@ class DriverSerializerForTrip(serializers.ModelSerializer):
 class DriverTripClientSerializer(serializers.ModelSerializer):
     seats = serializers.SerializerMethodField()
     client = serializers.CharField(source="client.full_name")
+    pick_up_address = LocationSerializer()
+    drop_off_address = LocationSerializer()
 
     class Meta:
         model = Order
-        fields = ("id", "client", "price", "seats", "approximate_leave_time")
+        fields = (
+            "id",
+            "client",
+            "price",
+            "seats",
+            "approximate_leave_time",
+            "pick_up_address",
+            "drop_off_address",
+        )
 
     def get_seats(self, obj):
         chosen_seats = []
@@ -32,9 +43,20 @@ class DriverTripClientSerializer(serializers.ModelSerializer):
 
 
 class DriverTripDeliverySerializer(serializers.ModelSerializer):
+    pick_up_address = LocationSerializer()
+    drop_off_address = LocationSerializer()
+
     class Meta:
         model = Order
-        fields = ("id", "delivery_user_phone", "delivery_type", "price", "approximate_leave_time")
+        fields = (
+            "id",
+            "delivery_user_phone",
+            "delivery_type",
+            "price",
+            "approximate_leave_time",
+            "pick_up_address",
+            "drop_off_address",
+        )
 
 
 class DriverTripSerializer(serializers.ModelSerializer):
@@ -44,4 +66,4 @@ class DriverTripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ("id", "driver", "client", "delivery")
+        fields = ("id", "driver", "client", "delivery", 'status')

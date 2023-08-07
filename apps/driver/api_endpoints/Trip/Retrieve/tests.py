@@ -34,9 +34,17 @@ def test_driver_retrieve_trip(client, new_driver):
     url = reverse("driver-trip-retrieve")
     response = client.get(url, **headers)
     assert response.status_code == 200
-    assert list(response.json().keys()) == ["id", "driver", "client", "delivery"]
+    assert list(response.json().keys()) == ["id", "driver", "client", "delivery", 'status']
     assert list(response.json()["driver"].keys()) == ["has_air_conditioner", "has_baggage", "smoking_allowed"]
-    assert list(response.json()["client"][0].keys()) == ["id", "client", "price", "seats", "approximate_leave_time"]
+    assert list(response.json()["client"][0].keys()) == [
+        "id",
+        "client",
+        "price",
+        "seats",
+        "approximate_leave_time",
+        "pick_up_address",
+        "drop_off_address",
+    ]
     assert list(response.json()["client"][0]["seats"]) == chosen_seats
 
 
@@ -68,9 +76,17 @@ def test_driver_retrieve_trip_two_seats(client, new_driver):
     url = reverse("driver-trip-retrieve")
     response = client.get(url, **headers)
     assert response.status_code == 200
-    assert list(response.json().keys()) == ["id", "driver", "client", "delivery"]
+    assert list(response.json().keys()) == ["id", "driver", "client", "delivery", 'status']
     assert list(response.json()["driver"].keys()) == ["has_air_conditioner", "has_baggage", "smoking_allowed"]
-    assert list(response.json()["client"][0].keys()) == ["id", "client", "price", "seats", "approximate_leave_time"]
+    assert list(response.json()["client"][0].keys()) == [
+        "id",
+        "client",
+        "price",
+        "seats",
+        "approximate_leave_time",
+        "pick_up_address",
+        "drop_off_address",
+    ]
     assert list(response.json()["client"][0]["seats"]) == chosen_seats
 
 
@@ -103,7 +119,15 @@ def test_driver_retrieve_trip_two_seats_second_case(client, new_driver):
     url = reverse("driver-trip-retrieve")
     response = client.get(url, **headers)
     assert response.status_code == 200
-    assert list(response.json().keys()) == ["id", "driver", "client", "delivery"]
+    assert list(response.json().keys()) == ["id", "driver", "client", "delivery", 'status']
     assert list(response.json()["driver"].keys()) == ["has_air_conditioner", "has_baggage", "smoking_allowed"]
-    assert list(response.json()["client"][0].keys()) == ["id", "client", "price", "seats", "approximate_leave_time"]
+    assert list(response.json()["client"][0].keys()) == [
+        "id",
+        "client",
+        "price",
+        "seats",
+        "approximate_leave_time",
+        "pick_up_address",
+        "drop_off_address",
+    ]
     assert list(response.json()["client"][0]["seats"]) == chosen_seats

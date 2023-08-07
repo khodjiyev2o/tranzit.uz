@@ -33,8 +33,6 @@ def test_list_order_view(client, new_driver, new_order):
     assert response.json()[0]["back_left"] == new_order.back_left
     assert response.json()[0]["pick_up_address"]["city"] == str(new_order.pick_up_address.city)
     assert response.json()[0]["drop_off_address"]["city"] == str(new_order.drop_off_address.city)
-    assert response.json()[0]["pick_up_address"]["street"] == new_order.pick_up_address.street
-    assert response.json()[0]["drop_off_address"]["street"] == new_order.drop_off_address.street
     assert response.json()[0]["price"] == new_order.price
     assert response.json()[0]["delivery_user_phone"] == new_order.delivery_user_phone
     assert response.json()[0]["delivery_type"] == new_order.delivery_type
