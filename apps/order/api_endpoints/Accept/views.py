@@ -64,10 +64,7 @@ class OrderAcceptView(generics.GenericAPIView):
                 trip.delivery.add(order)
 
             order.taken_by_driver()
-            # Additional processing related to the transaction
-            transaction.commit()
         except Exception as e:
-            transaction.rollback()
             raise e
 
 

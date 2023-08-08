@@ -37,6 +37,7 @@ class OrderAdmin(admin.ModelAdmin):
         "client_phone_number",
         "client_pick_up_address",
         "client_drop_off_address",
+        "status",
     )
     list_display_links = ("id", "client_full_name")
     list_filter = ("status", "type")

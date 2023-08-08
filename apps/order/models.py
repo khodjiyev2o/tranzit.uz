@@ -101,6 +101,7 @@ class Order(BaseModel):
     def taken_by_driver(self):
         self.status = self.OrderStatus.IN_PROGRESS
         self.save()
+        # do  not call save() method, as it is used inside atomic.reuq
 
     def canceled_by_driver(self):
         self.status = self.OrderStatus.REQUESTED

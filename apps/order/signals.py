@@ -20,6 +20,7 @@ def order_updated(sender, instance, created, **kwargs):
         async_to_sync(channel_layer.group_send)("orders", {"type": "new_order", "data": data})
     elif instance.status == Order.OrderStatus.IN_PROGRESS or instance.status == Order.OrderStatus.CANCELED:
         # if order is taken by another driver
+        print("order is taken by another driver")
         data = {
             "type": "delete_order",
             "data": OrderListSerializer(instance).data,
