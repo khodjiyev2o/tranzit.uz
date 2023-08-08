@@ -66,7 +66,6 @@ class Order(BaseModel):
         max_length=256,
         verbose_name=_("Delivery Type"),
         choices=DeliveryType.choices,
-        default=DeliveryType.DOCUMENT,
         null=True,
         blank=True,
     )

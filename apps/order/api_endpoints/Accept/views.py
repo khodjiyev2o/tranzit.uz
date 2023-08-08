@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from apps.order.api_endpoints.Accept.serializers import DriverOrderAcceptSerializer
 from apps.order.models import Order, Trip
 from helpers.permissions import CustomDriverPermission
+from django.db import transaction
 
 
 class OrderAcceptView(generics.GenericAPIView):
@@ -46,12 +47,29 @@ class OrderAcceptView(generics.GenericAPIView):
             if conflicting_seats:
                 return Response({"detail": _("Seats conflict with another order")}, status=status.HTTP_400_BAD_REQUEST)
 
-            trip.client.add(order)
+            self.update_order_state(order=order, trip_id=trip.id, order_type=Order.OrderType.PERSON)
         else:
-            trip.delivery.add(order)
+            self.update_order_state(order=order, trip_id=trip.id, order_type=Order.OrderType.DELIVERY)
 
-        order.taken_by_driver()
         return Response({"message": _("Order added to trip successfully.")}, status=status.HTTP_200_OK)
+
+    @staticmethod
+    @transaction.atomic
+    def update_order_state(order: Order, trip_id: int, order_type: str):
+        try:
+            trip = Trip.objects.get(id=trip_id)
+            if order_type == Order.OrderType.PERSON:
+                trip.client.add(order)
+            else:
+                trip.delivery.add(order)
+
+            order.taken_by_driver()
+            # Additional processing related to the transaction
+            transaction.commit()
+        except Exception as e:
+            transaction.rollback()
+            raise e
 
 
 __all__ = ["OrderAcceptView"]
+

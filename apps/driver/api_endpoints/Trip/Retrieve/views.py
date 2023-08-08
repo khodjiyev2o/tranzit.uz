@@ -10,7 +10,8 @@ class DriverTripRetrieveView(RetrieveAPIView):
     permission_classes = CustomDriverPermission
 
     def get_object(self):
-        return Trip.objects.filter(status=Trip.TripStatus.ACTIVE, driver=self.request.user.driver).first()
+        trip, _ = Trip.objects.get_or_create(status=Trip.TripStatus.ACTIVE, driver=self.request.user.driver)
+        return trip
 
 
 __all__ = ["DriverTripRetrieveView"]
