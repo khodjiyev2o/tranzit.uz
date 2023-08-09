@@ -146,8 +146,15 @@ class Trip(BaseModel):
             # If there are no orders or deliveries in the trip, no validation is needed
             return
 
-        if self.status == Trip.TripStatus.ACTIVE:
-            if Trip.objects.filter(driver=self.driver, status=Trip.TripStatus.ACTIVE).exclude(pk=self.pk).exists():
+        if self.status == Trip.TripStatus.ACTIVE or self.status == Trip.TripStatus.IN_PROCESS:
+            if (
+                Trip.objects.filter(
+                    models.Q(status=Trip.TripStatus.ACTIVE) | models.Q(status=Trip.TripStatus.IN_PROCESS),
+                    driver=self.driver,
+                )
+                .exclude(pk=self.pk)
+                .exists()
+            ):
                 raise ValidationError(_("Only One trip at a time"))
 
     def save(self, *args, **kwargs):

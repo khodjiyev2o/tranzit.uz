@@ -1,12 +1,12 @@
+from django.db import transaction
 from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from rest_framework import generics, status
 from rest_framework.response import Response
-
+from rest_framework.exceptions import ValidationError
 from apps.order.api_endpoints.Accept.serializers import DriverOrderAcceptSerializer
 from apps.order.models import Order, Trip
 from helpers.permissions import CustomDriverPermission
-from django.db import transaction
 
 
 class OrderAcceptView(generics.GenericAPIView):
@@ -38,20 +38,35 @@ class OrderAcceptView(generics.GenericAPIView):
 
         if order.type == Order.OrderType.PERSON:
             # Check if the order's seats conflict with other orders
-            conflicting_seats = trip.client.filter(
-                Q(front_right=order.front_right)
-                | Q(back_left=order.back_left)
-                | Q(back_middle=order.back_middle)
-                | Q(back_right=order.back_right)
-            ).exists()
-            if conflicting_seats:
-                return Response({"detail": _("Seats conflict with another order")}, status=status.HTTP_400_BAD_REQUEST)
+            for client in trip.client.all():
+                try:
+                    self.check_validation(client=client, order=order)
+                except ValidationError:
+                    return Response({"detail": _("Seats conflict with another order")}, status=status.HTTP_400_BAD_REQUEST)
 
             self.update_order_state(order=order, trip_id=trip.id, order_type=Order.OrderType.PERSON)
         else:
             self.update_order_state(order=order, trip_id=trip.id, order_type=Order.OrderType.DELIVERY)
 
         return Response({"message": _("Order added to trip successfully.")}, status=status.HTTP_200_OK)
+
+    @staticmethod
+    def check_validation(order: Order, client: Order) -> None:
+        if order.back_middle is True and order.back_middle == client.back_middle:
+            print("order.back_middle")
+            raise ValidationError
+
+        if order.front_right is True and order.front_right == client.front_right:
+            print("order.front_right")
+            raise ValidationError
+
+        if order.back_left is True and order.back_left == client.back_left:
+            print("order.back_left")
+            raise ValidationError
+
+        if order.back_right is True and order.back_right == client.back_right:
+            print("order.back_right")
+            raise ValidationError
 
     @staticmethod
     @transaction.atomic
@@ -69,4 +84,3 @@ class OrderAcceptView(generics.GenericAPIView):
 
 
 __all__ = ["OrderAcceptView"]
-
