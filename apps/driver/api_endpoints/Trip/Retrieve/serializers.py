@@ -25,8 +25,8 @@ class DriverTripClientSerializer(serializers.ModelSerializer):
             "client_full_name",
             "client_phone_number",
             "price",
-            "seats",
             "approximate_leave_time",
+            "seats",
             "pick_up_address",
             "drop_off_address",
         )
@@ -76,14 +76,14 @@ class DriverTripSerializer(serializers.ModelSerializer):
         model = Trip
         fields = (
             "id",
-            "driver",
-            "seats",
-            "client",
-            "delivery",
             "status",
             "pick_up_address",
             "drop_off_address",
             "approximate_leave_time",
+            "driver",
+            "seats",
+            "client",
+            "delivery",
         )
 
     def get_seats(self, obj):

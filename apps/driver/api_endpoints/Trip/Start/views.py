@@ -15,6 +15,8 @@ class DriverTripStartView(GenericAPIView):
 
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
+        if not instance.client.exists() and not instance.delivery.exists():
+            return response.Response({"message": _("No  orders found on the trip")}, status=status.HTTP_404_NOT_FOUND)
         instance.status = Trip.TripStatus.IN_PROCESS
         instance.save()
         return response.Response({"message": _("Successfully started the trip")}, status=status.HTTP_200_OK)

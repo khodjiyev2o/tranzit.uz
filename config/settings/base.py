@@ -30,6 +30,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "drf_yasg",
     "django_filters",
+    "debug_toolbar",
 ]
 DJANGO_APPS = [
     "jazzmin",
@@ -45,6 +46,7 @@ DJANGO_APPS = [
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DJANGO_APPS
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
@@ -154,5 +156,10 @@ CHANNEL_LAYERS = {
     },
 }
 
+INTERNAL_IPS = [
+    "localhost",
+    "127.0.0.1",
+]
 
 TEST = env.str("TEST", False)
+TRANSIT_SERVICE_FEE = 0.05

@@ -44,7 +44,7 @@ class Driver(BaseModel):
     tex_passport = models.CharField(max_length=10, verbose_name=_("Tex Passport"))
     driving_license = models.CharField(max_length=9, verbose_name=_("Driving License"))
     car_model = models.CharField(max_length=256, verbose_name=_("Car Model"))
-    car_number = models.CharField(max_length=8, verbose_name=_("Car Number"))
+    car_number = models.CharField(max_length=8, verbose_name=_("Car Number"), unique=True)
     car_category = models.CharField(max_length=256, verbose_name=_("Car Category"), choices=CarCategory.choices)
     has_air_conditioner = models.BooleanField(default=True, verbose_name=_("Has Air Conditioner"))
     has_baggage = models.BooleanField(default=True, verbose_name=_("Has Baggage"))

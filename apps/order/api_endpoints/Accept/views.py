@@ -1,9 +1,9 @@
 from django.db import transaction
-from django.db.models import Q
 from django.utils.translation import gettext_lazy as _
 from rest_framework import generics, status
-from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from rest_framework.response import Response
+
 from apps.order.api_endpoints.Accept.serializers import DriverOrderAcceptSerializer
 from apps.order.models import Order, Trip
 from helpers.permissions import CustomDriverPermission
@@ -42,7 +42,9 @@ class OrderAcceptView(generics.GenericAPIView):
                 try:
                     self.check_validation(client=client, order=order)
                 except ValidationError:
-                    return Response({"detail": _("Seats conflict with another order")}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response(
+                        {"detail": _("Seats conflict with another order")}, status=status.HTTP_400_BAD_REQUEST
+                    )
 
             self.update_order_state(order=order, trip_id=trip.id, order_type=Order.OrderType.PERSON)
         else:
@@ -53,19 +55,15 @@ class OrderAcceptView(generics.GenericAPIView):
     @staticmethod
     def check_validation(order: Order, client: Order) -> None:
         if order.back_middle is True and order.back_middle == client.back_middle:
-            print("order.back_middle")
             raise ValidationError
 
         if order.front_right is True and order.front_right == client.front_right:
-            print("order.front_right")
             raise ValidationError
 
         if order.back_left is True and order.back_left == client.back_left:
-            print("order.back_left")
             raise ValidationError
 
         if order.back_right is True and order.back_right == client.back_right:
-            print("order.back_right")
             raise ValidationError
 
     @staticmethod

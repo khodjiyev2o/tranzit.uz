@@ -137,6 +137,14 @@ class Trip(BaseModel):
         max_length=256, choices=TripStatus.choices, default=TripStatus.ACTIVE, verbose_name=_("Status")
     )
 
+    @property
+    def total_amount_from_client(self):
+        return Trip.objects.filter(id=self.id).aggregate(total_amount=models.Sum("client__price"))["total_amount"] or 0
+
+    @property
+    def total_amount_from_delivery(self):
+        return Trip.objects.filter(id=self.id).aggregate(total_amount=models.Sum("delivery__price"))["total_amount"] or 0
+
     def __str__(self):
         return f"{self.driver.user.full_name} | {self.status}"
 

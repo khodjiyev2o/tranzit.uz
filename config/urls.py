@@ -12,6 +12,7 @@ urlpatterns = [
     path("api/common/", include("apps.common.urls")),
     path("api/driver/", include("apps.driver.urls")),
     path("api/order/", include("apps.order.urls")),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 urlpatterns += swaggerurlpatterns
