@@ -6,6 +6,7 @@ from apps.order.models import Order
 
 
 class OrderDetailView(RetrieveAPIView):
+    queryset = Order.objects.all()
     serializer_class = OrderDetailSerializer
     permission_classes = [IsAuthenticated]
 

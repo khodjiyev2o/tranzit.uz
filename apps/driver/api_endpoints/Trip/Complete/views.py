@@ -2,13 +2,13 @@ from django.conf import settings
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from rest_framework import response, status
-from rest_framework.generics import GenericAPIView
+from rest_framework.views import APIView
 
 from apps.order.models import Order, Trip
 from helpers.permissions import CustomDriverPermission
 
 
-class DriverTripCompleteView(GenericAPIView):
+class DriverTripCompleteView(APIView):
     permission_classes = CustomDriverPermission
 
     def get_object(self):
