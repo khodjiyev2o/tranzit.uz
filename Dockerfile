@@ -8,8 +8,8 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 # install psycopg2 dependencies
-RUN apt update \
-    && apt add postgresql-dev gcc python3-dev musl-dev
+RUN apt-get update \
+    && apt-get install -y postgresql-server-dev-all gcc python3-dev musl-dev
 
 # install dependencies
 RUN pip install --upgrade pip
