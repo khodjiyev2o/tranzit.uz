@@ -33,3 +33,4 @@ redis==4.5.3
 daphne==4.0.0
 channels==4.0.0
 channels_redis==4.1.0
+debug_toolbar==4.2
