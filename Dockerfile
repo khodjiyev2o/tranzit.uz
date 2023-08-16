@@ -1,4 +1,4 @@
-FROM arm64v8/python:3.9.6-alpine
+FROM --platform=linux/amd64 python:3.8
 
 # set work directory
 WORKDIR /usr/src/app
