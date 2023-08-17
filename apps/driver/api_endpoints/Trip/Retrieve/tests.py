@@ -36,15 +36,15 @@ def test_driver_retrieve_trip(client, new_driver):
     response = client.get(url, **headers)
     assert response.status_code == 200
     assert list(response.json().keys()) == [
-        "id",
-        "driver",
-        "seats",
-        "client",
-        "delivery",
+         "id",
         "status",
         "pick_up_address",
         "drop_off_address",
         "approximate_leave_time",
+        "driver",
+        "seats",
+        "client",
+        "delivery",
     ]
     assert list(response.json()["driver"].keys()) == ["has_air_conditioner", "has_baggage", "smoking_allowed"]
     assert list(response.json()["client"][0].keys()) == [
@@ -52,8 +52,8 @@ def test_driver_retrieve_trip(client, new_driver):
         "client_full_name",
         "client_phone_number",
         "price",
-        "seats",
         "approximate_leave_time",
+        "seats",
         "pick_up_address",
         "drop_off_address",
     ]
@@ -91,14 +91,14 @@ def test_driver_retrieve_trip_two_seats(client, new_driver):
     assert response.status_code == 200
     assert list(response.json().keys()) == [
         "id",
-        "driver",
-        "seats",
-        "client",
-        "delivery",
         "status",
         "pick_up_address",
         "drop_off_address",
         "approximate_leave_time",
+        "driver",
+        "seats",
+        "client",
+        "delivery",
     ]
     assert list(response.json()["driver"].keys()) == ["has_air_conditioner", "has_baggage", "smoking_allowed"]
     assert list(response.json()["client"][0].keys()) == [
@@ -106,8 +106,8 @@ def test_driver_retrieve_trip_two_seats(client, new_driver):
         "client_full_name",
         "client_phone_number",
         "price",
-        "seats",
         "approximate_leave_time",
+        "seats",
         "pick_up_address",
         "drop_off_address",
     ]
@@ -146,14 +146,14 @@ def test_driver_retrieve_trip_two_seats_second_case(client, new_driver):
     assert response.status_code == 200
     assert list(response.json().keys()) == [
         "id",
-        "driver",
-        "seats",
-        "client",
-        "delivery",
         "status",
         "pick_up_address",
         "drop_off_address",
         "approximate_leave_time",
+        "driver",
+        "seats",
+        "client",
+        "delivery",
     ]
     assert list(response.json()["driver"].keys()) == ["has_air_conditioner", "has_baggage", "smoking_allowed"]
     assert list(response.json()["client"][0].keys()) == [
@@ -161,8 +161,8 @@ def test_driver_retrieve_trip_two_seats_second_case(client, new_driver):
         "client_full_name",
         "client_phone_number",
         "price",
-        "seats",
         "approximate_leave_time",
+        "seats",
         "pick_up_address",
         "drop_off_address",
     ]
@@ -190,14 +190,14 @@ def test_driver_retrieve_trip_delivery(client, new_driver):
     assert response.status_code == 200
     assert list(response.json().keys()) == [
         "id",
-        "driver",
-        "seats",
-        "client",
-        "delivery",
         "status",
         "pick_up_address",
         "drop_off_address",
         "approximate_leave_time",
+        "driver",
+        "seats",
+        "client",
+        "delivery",
     ]
     assert list(response.json()["driver"].keys()) == ["has_air_conditioner", "has_baggage", "smoking_allowed"]
     assert response.json()["client"] == []

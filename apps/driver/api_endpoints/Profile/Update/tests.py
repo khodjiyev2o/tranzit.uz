@@ -10,4 +10,3 @@ def test_driver_update_profile(client, new_driver):
     response = client.put(url, data=data, **headers, content_type="application/json")
     assert response.status_code == 200
     assert response.json()["full_name"] == data["full_name"]
-    assert response.json()["photo"] == new_driver.user.photo

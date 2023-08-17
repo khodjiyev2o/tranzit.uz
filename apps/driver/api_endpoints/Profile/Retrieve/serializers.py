@@ -1,8 +1,8 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from apps.driver.models import Driver
 from apps.users.models import User
-from django.conf import settings
 
 
 class DriverUserProfileSerializer(serializers.ModelSerializer):

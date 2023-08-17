@@ -8,7 +8,9 @@ from helpers.permissions import IsDriver
 
 class DriverPhotoUpdateView(UpdateAPIView):
     serializer_class = DriverPhotoUpdateSerializer
-    permission_classes = [IsDriver, ]
+    permission_classes = [
+        IsDriver,
+    ]
 
     def get_object(self):
         return self.request.user
