@@ -36,7 +36,7 @@ def test_driver_retrieve_trip(client, new_driver):
     response = client.get(url, **headers)
     assert response.status_code == 200
     assert list(response.json().keys()) == [
-         "id",
+        "id",
         "status",
         "pick_up_address",
         "drop_off_address",

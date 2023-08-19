@@ -34,3 +34,6 @@ daphne==4.0.0
 channels==4.0.0
 channels_redis==4.1.0
 django-debug-toolbar==4.2
+
+# sentry
+sentry-sdk==1.15.0

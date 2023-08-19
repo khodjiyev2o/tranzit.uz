@@ -4,9 +4,9 @@ from apps.driver.api_endpoints import index
 from apps.order.api_endpoints import (
     OrderAcceptView,
     OrderCancelView,
+    OrderCreateView,
     OrderDetailView,
     OrderListView,
-    OrderCreateView,
 )
 from apps.order.consumers import ChatConsumer
 
@@ -17,7 +17,6 @@ websocket_urlpatterns = [
 
 urlpatterns = [
     path("", OrderListView.as_view(), name="order-list"),
-
     path("template/", index, name="index"),
     path("create/", OrderCreateView.as_view(), name="order-create"),
     path("accept/", OrderAcceptView.as_view(), name="order-accept"),
