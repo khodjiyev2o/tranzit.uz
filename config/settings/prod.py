@@ -35,9 +35,12 @@ CSRF_COOKIE_SECURE = True
 ###################################################################
 # CORS
 ###################################################################
-CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ["*"]
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://transitgroup.uz",
+]
 
 sentry_sdk.init(
     dsn=SENTRY_DSN,

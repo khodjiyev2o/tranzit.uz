@@ -26,6 +26,7 @@ LOCAL_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "daphne",
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",
     "drf_yasg",
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
