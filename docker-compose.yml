@@ -21,6 +21,9 @@ services:
       - postgres_data:/var/lib/postgresql/data/
     env_file: .env.db
     container_name: db
+  redis:
+    image: redis:6-alpine
+    restart: always
 
 volumes:
   postgres_data:
