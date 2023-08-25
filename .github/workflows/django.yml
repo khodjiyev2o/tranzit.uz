@@ -26,5 +26,6 @@ jobs:
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DJANGO_SETTINGS_MODULE: 'config.settings.dev'
+        SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       run: |
         pytest -vv -s 
