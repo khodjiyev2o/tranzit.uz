@@ -31,5 +31,6 @@ jobs:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DJANGO_SETTINGS_MODULE: 'config.settings.dev'
         SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        TEST: 1
       run: |
         pytest -vv -s 
