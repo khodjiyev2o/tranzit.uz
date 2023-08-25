@@ -25,6 +25,7 @@ class UserLoginSendSMSView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         # check if user account already exists
         if not self.user_exists(request):
             return Response({"success": False, "message": _("User not found!")}, status=HTTP_404_NOT_FOUND)
