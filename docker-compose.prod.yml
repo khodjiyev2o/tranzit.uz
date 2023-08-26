@@ -41,7 +41,9 @@ services:
   daphne:
     <<: *web
     container_name: ${PROJECT_NAME}_ws
-    command: python -m daphne -b 0.0.0.0 -p 8893 config.asgi:application
+    command: python3 -m daphne -b 0.0.0.0 -p 8893 config.asgi:application
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.prod
     ports:
       - 8893:8893
 

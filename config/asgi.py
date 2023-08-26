@@ -1,25 +1,19 @@
 import os
-from pathlib import Path
-
-import environ
+import django
 from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 
-from apps.order.urls import websocket_urlpatterns
+from channels.auth import AuthMiddlewareStack
 
-from .channels_middleware import JwtAuthMiddlewareStack
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+django.setup()
 
-
-base_dir = Path(__file__).resolve().parent.parent
-environ.Env().read_env(os.path.join(base_dir, ".env"))
-
-
-django_asgi_app = get_asgi_application()
+import apps.order.routing  # noqa
 
 
 application = ProtocolTypeRouter(
     {
-        "http": django_asgi_app,
-        "websocket": JwtAuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
+        "http": get_asgi_application(),
+        "websocket": AuthMiddlewareStack(URLRouter(apps.order.routing.websocket_urlpatterns)),
     }
 )
