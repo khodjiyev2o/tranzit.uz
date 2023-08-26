@@ -3,6 +3,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import environ
+from config.jazzmin_conf import *  # noqa
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -16,7 +17,7 @@ SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = True
 
 
-ALLOWED_HOSTS = [""]
+ALLOWED_HOSTS = ["*"]
 
 LOCAL_APPS = [
     "apps.users.apps.UsersConfig",
