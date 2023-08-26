@@ -22,7 +22,7 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-    command: gunicorn config.wsgi:application --bind 0.0.0.0:8319
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:${DJANGO_PORT}
     security_opt:
       - seccomp:unconfined
     volumes:
@@ -33,7 +33,7 @@ services:
     env_file:
       - .env
     ports:
-      - 8319:8319
+      - ${DJANGO_PORT}:${DJANGO_PORT}
     depends_on:
       - db
       - redis
@@ -41,11 +41,11 @@ services:
   daphne:
     <<: *web
     container_name: ${PROJECT_NAME}_ws
-    command: python3 -m daphne -b 0.0.0.0 -p 8893 config.asgi:application
+    command: python3 -m daphne -b 0.0.0.0 -p ${WS_PORT} config.asgi:application
     environment:
       DJANGO_SETTINGS_MODULE: config.settings.prod
     ports:
-      - 8893:8893
+      - ${WS_PORT}:${WS_PORT}
 
   redis:
     container_name: ${PROJECT_NAME}_redis
