@@ -10,6 +10,7 @@ DATABASES = {
     }
 }
 
+# for github actions ci/cd
 if TEST:
     CACHES = {
         "default": {
