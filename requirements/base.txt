@@ -38,7 +38,3 @@ django-debug-toolbar==4.2
 
 # sentry
 sentry-sdk==1.15.0
-
-
-
-django-channels-jwt-auth-middleware==1.0.0
