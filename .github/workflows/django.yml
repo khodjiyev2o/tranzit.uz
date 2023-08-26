@@ -24,6 +24,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Debug Redis Connection
+      run: |
+        docker ps  # Check if the Redis container is running
+        docker exec -it redis redis-cli ping  # Test the Redis connection
 
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
