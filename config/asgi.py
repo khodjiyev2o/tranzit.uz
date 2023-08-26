@@ -1,19 +1,25 @@
 import os
-import django
-from channels.routing import ProtocolTypeRouter, URLRouter
+from pathlib import Path
+import environ
 from django.core.asgi import get_asgi_application
 
-from channels.auth import AuthMiddlewareStack
+base_dir = Path(__file__).resolve().parent.parent # noqa
+environ.Env().read_env(os.path.join(base_dir, ".env")) # noqa
+django_asgi_app = get_asgi_application() # noqa
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-django.setup()
+"""
+Initialize Django ASGI application early to ensure the AppRegistry
+is populated before importing code that may import ORM models.
+"""
 
-import apps.order.routing  # noqa
+from channels.routing import ProtocolTypeRouter, URLRouter
+from .channels_middleware import JwtAuthMiddlewareStack
+import apps.order.routing # noqa
 
 
 application = ProtocolTypeRouter(
     {
-        "http": get_asgi_application(),
-        "websocket": AuthMiddlewareStack(URLRouter(apps.order.routing.websocket_urlpatterns)),
+        "http": django_asgi_app,
+        "websocket": JwtAuthMiddlewareStack(URLRouter(apps.order.routing.websocket_urlpatterns)),
     }
 )
