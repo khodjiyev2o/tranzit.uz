@@ -19,15 +19,15 @@ jobs:
           - 6379:6379
 
     steps:
-      - name: Cache pip and Python environment
-        uses: actions/cache@v2
-        with:
-            path: |
-              /opt/hostedtoolcache/Python/3.9.13/x64/  # This path is specific to Ubuntu
-              ~/.cache/pip
-            key: python-${{ hashFiles('requirements/base.txt') }}-${{ hashFiles('requirements/dev.txt') }}
-            restore-keys: |
-                python-
+#      - name: Cache pip and Python environment
+#        uses: actions/cache@v2
+#        with:
+#            path: |
+#              /opt/hostedtoolcache/Python/3.9.13/x64/  # This path is specific to Ubuntu
+#              ~/.cache/pip
+#            key: python-${{ hashFiles('requirements/base.txt') }}-${{ hashFiles('requirements/dev.txt') }}
+#            restore-keys: |
+#                python-
 
       - uses: actions/checkout@v2
       - name: Set up Python ${{ matrix.python-version }}
