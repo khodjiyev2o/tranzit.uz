@@ -3,3 +3,5 @@ from .Cancel import *  # noqa
 from .Create import *  # noqa
 from .Detail import *  # noqa
 from .List import *  # noqa
+from .Promocode import  * # noqa
+from .GetOrderPrice import  * # noqa

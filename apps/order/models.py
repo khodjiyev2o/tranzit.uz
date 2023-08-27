@@ -74,7 +74,8 @@ class Order(BaseModel):
     has_air_conditioner = models.BooleanField(default=True, verbose_name=_("Has Air Conditioner"))
     has_baggage = models.BooleanField(default=True, verbose_name=_("Has Baggage"))
     smoking_allowed = models.BooleanField(default=False, verbose_name=_("Smoking Allowed"))
-    promocode = models.CharField(max_length=15, verbose_name=_("Promocode"), null=True, blank=True)
+    promocode = models.ForeignKey("common.Promocode", on_delete=models.SET_NULL, verbose_name=_("Promocode"), null=True,
+                                  blank=True)
 
     # FK
     client = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("Client"))
