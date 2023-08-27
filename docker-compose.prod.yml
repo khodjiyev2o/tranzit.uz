@@ -26,10 +26,8 @@ services:
     security_opt:
       - seccomp:unconfined
     volumes:
-      - ./:/app
-      - ./static:/home/app/web/static
-      - ./media:/home/app/web/media
-      - ./locale:/home/app/web/locale
+      - ./static:/usr/src/app/static
+      - ./media:/usr/src/app/media
     env_file:
       - .env
     ports:
