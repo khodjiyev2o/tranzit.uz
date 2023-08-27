@@ -7,6 +7,10 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.9.13, ]
     services:
       redis:
         image: redis
@@ -19,35 +23,34 @@ jobs:
           - 6379:6379
 
     steps:
-#      - name: Cache pip and Python environment
-#        uses: actions/cache@v2
-#        with:
-#            path: |
-#              /opt/hostedtoolcache/Python/3.9.13/x64/  # This path is specific to Ubuntu
-#              ~/.cache/pip
-#            key: python-${{ hashFiles('requirements/base.txt') }}-${{ hashFiles('requirements/dev.txt') }}
-#            restore-keys: |
-#                python-
+    - name: Cache Dependencies
+      uses: actions/cache@v2
+      with:
+         path: ~/.cache/pip
+         key: ${{ runner.os }}-pip-${{ hashFiles('requirements/dev.txt') }}
+         restore-keys: |
+            ${{ runner.os }}-pip-
 
-      - uses: actions/checkout@v2
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
-        with:
-            python-version: ${{ matrix.python-version }}
+    - uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements/dev.txt
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
 
-      - name: Run Tests
-        env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          DJANGO_SETTINGS_MODULE: 'config.settings.test'
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          TEST: 1
-        run: |
-            pytest -n auto 
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements/dev.txt
+
+    - name: Run Tests
+      env:
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        DJANGO_SETTINGS_MODULE: 'config.settings.test'
+        SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        TEST: 1
+      run: |
+        pytest -n auto
 
   deploy:
     runs-on: ubuntu-latest
