@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v2
         with:
             path: |
-              /opt/hostedtoolcache/Python/3.6.10/x64/  # This path is specific to Ubuntu
+              /opt/hostedtoolcache/Python/3.9.13/x64/  # This path is specific to Ubuntu
               ~/.cache/pip
             key: python-${{ hashFiles('requirements/base.txt') }}-${{ hashFiles('requirements/dev.txt') }}
             restore-keys: |
