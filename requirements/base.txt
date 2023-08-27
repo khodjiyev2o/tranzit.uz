@@ -40,3 +40,4 @@ django-debug-toolbar==4.2
 
 # sentry
 sentry-sdk==1.15.0
+attrs
