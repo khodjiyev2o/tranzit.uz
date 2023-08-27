@@ -50,7 +50,7 @@ jobs:
         SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
         TEST: 1
       run: |
-        pytest -n auto
+        pytest -n auto --nomigrations
 
   deploy:
     runs-on: ubuntu-latest
