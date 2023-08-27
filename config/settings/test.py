@@ -1,7 +1,7 @@
 from .base import *  # noqa
 
 
-DEBUG = True
+DEBUG = False
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
@@ -9,3 +9,4 @@ DATABASES = {
     }
 }
 TEST = env.str("TEST", True)
+PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
