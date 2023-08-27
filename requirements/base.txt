@@ -26,6 +26,8 @@ pytest-cov==4.0.0
 pytest-django==4.5.2
 pytest-factoryboy==2.5.1
 pytest-env==0.8.2
+pytest-xdist==3.3.1
+
 # caches
 django-redis==5.2.0
 redis==4.5.3
