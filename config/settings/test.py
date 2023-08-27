@@ -8,12 +8,11 @@ DATABASES = {
         "NAME": (BASE_DIR / "db.sqlite3"),
     }
 }
-TEST = env.str("TEST", True)
 PASSWORD_HASHERS = ['django.contrib.auth.hashers.MD5PasswordHasher']
 
 # for github actions ci/cd
-if TEST:
-    CACHES = {
+
+CACHES = {
         "default": {
             "BACKEND": "django_redis.cache.RedisCache",
             "LOCATION": "redis://localhost:6379/0",
