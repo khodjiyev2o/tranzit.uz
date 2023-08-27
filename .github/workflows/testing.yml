@@ -7,10 +7,6 @@ on:
 jobs:
   testing:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.9.13, ]
     services:
       redis:
         image: redis
@@ -23,33 +19,35 @@ jobs:
           - 6379:6379
 
     steps:
-    - name: Cache pip
-      uses: actions/cache@v1
-      with:
-        path: /opt/hostedtoolcache/Python/3.6.10/x64/ # This path is specific to Ubuntu
-        # If the requirements files change, the cache will not hit.
-        key: python-${{ hashFiles('requirements/base.txt') }}-${{ hashFiles('requirements/dev.txt') }}
+      - name: Cache pip and Python environment
+        uses: actions/cache@v2
+        with:
+            path: |
+              /opt/hostedtoolcache/Python/3.6.10/x64/  # This path is specific to Ubuntu
+              ~/.cache/pip
+            key: python-${{ hashFiles('requirements/base.txt') }}-${{ hashFiles('requirements/dev.txt') }}
+            restore-keys: |
+                python-
 
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+            python-version: ${{ matrix.python-version }}
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements/dev.txt
 
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements/dev.txt
-
-    - name: Run Tests
-      env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        DJANGO_SETTINGS_MODULE: 'config.settings.test'
-        SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-        TEST: 1
-      run: |
-        pytest -n auto --nomigrations
+      - name: Run Tests
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DJANGO_SETTINGS_MODULE: 'config.settings.test'
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TEST: 1
+        run: |
+            pytest -n auto --nomigrations
 
   deploy:
     runs-on: ubuntu-latest
