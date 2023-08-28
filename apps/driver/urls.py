@@ -14,6 +14,7 @@ from apps.driver.api_endpoints import (
     DriverTripCompleteView,
     DriverTripRetrieveView,
     DriverTripStartView,
+    OnlineDriverListView,
 )
 
 
@@ -25,6 +26,7 @@ urlpatterns = [
     path("online-status/", DriverOnlineStateView.as_view(), name="driver-online-status"),
     path("offline-status/", DriverOfflineStateView.as_view(), name="driver-offline-status"),
     path("status/", DriverStatusView.as_view(), name="driver-status"),
+    path("OnlineList/", OnlineDriverListView.as_view(), name="driver-online-list"),
     path("profile/", DriverRetrieveProfileView.as_view(), name="driver-profile-retrieve"),
     path("profile-update/", DriverProfileUpdateView.as_view(), name="driver-profile-update"),
     path("profile-image-update/", DriverPhotoUpdateView.as_view(), name="driver-image-update"),
