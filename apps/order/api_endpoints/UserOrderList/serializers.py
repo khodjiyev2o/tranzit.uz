@@ -26,6 +26,7 @@ class UserOrderListSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "driver",
+            "status",
             "approximate_leave_time",
             "number_of_people",
             "front_right",
