@@ -142,7 +142,7 @@ SWAGGER_SETTINGS = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": f"{env.str('REDIS_URL', 'redis://redis:6379/0')}",
+        "LOCATION": f"{env.str('REDIS_URL', 'redis://localhost:6379/0')}",
         "KEY_PREFIX": "tranzit-backend",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
@@ -154,10 +154,11 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("redis", 6379)],
+            "hosts": [env.str("CELERY_BROKER_URL", "redis://localhost:6379")],
         },
     },
 }
+
 
 INTERNAL_IPS = [
     "localhost",

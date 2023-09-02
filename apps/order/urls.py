@@ -9,12 +9,13 @@ from apps.order.api_endpoints import (
     OrderListView,
     PromocodeRetrieveView,
     GetOrderPriceAPIView,
+    UserOrderListView,
 )
 
 
 urlpatterns = [
     path("", OrderListView.as_view(), name="order-list"),
-    path("template/", index, name="index"),
+    path("user-order/", UserOrderListView.as_view(), name="user-order-list"),
     path("create/", OrderCreateView.as_view(), name="order-create"),
     path("accept/", OrderAcceptView.as_view(), name="order-accept"),
     path("cancel/", OrderCancelView.as_view(), name="order-cancel"),

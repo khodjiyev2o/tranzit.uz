@@ -5,3 +5,4 @@ from .Detail import *  # noqa
 from .List import *  # noqa
 from .Promocode import  * # noqa
 from .GetOrderPrice import  * # noqa
+from .UserOrderList import * # noqa

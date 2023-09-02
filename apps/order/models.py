@@ -2,14 +2,15 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from apps.common.models import BaseModel
+from apps.common.models import BaseModel, UserPromocode
 from apps.driver.models import CarCategory, City, Driver
 from apps.users.models import User
 
 
 class Location(BaseModel):
-    city = models.CharField(max_length=256, choices=City.choices, default=City.Namangan, verbose_name=_("City"))
-    street = models.CharField(max_length=256, verbose_name=_("Street"))
+    city = models.CharField(max_length=256, default=City.Namangan, verbose_name=_("City"),
+                            null=True, blank=True)
+    street = models.CharField(max_length=256, verbose_name=_("Street"), null=True, blank=True)
     latitude = models.CharField(max_length=256, verbose_name=_("Latitude"))
     longitude = models.CharField(max_length=256, verbose_name=_("Longitude"))
 
@@ -19,6 +20,32 @@ class Location(BaseModel):
     class Meta:
         verbose_name = _("Location")
         verbose_name_plural = _("Locations")
+
+    def save(self, *args, **kwargs):
+        # Standardize the city name to the predefined choices
+        if self.city:
+            standardized_city = self.standardize_city_name(self.city)
+            self.city = standardized_city
+
+        super().save(*args, **kwargs)
+
+    def standardize_city_name(self, city_name):
+        # Define a mapping of standardized city names
+        city_mapping = {
+            "Toshkent viloyati": "Tashkent",
+            "Tashkent viloyati": "Tashkent",
+            "Namangan viloyati": "Namangan",
+            "Namangan shahar": "Namangan",
+            'Namangan shahri': "Namangan",
+            "Toshkent shahri": "Tashkent",
+            "Namangan": "Namangan",
+            "Tashkent": "Tashkent",
+            "Toshkent": "Tashkent",
+            # Add more mappings as needed
+        }
+
+        # Standardize the city name if it's in the mapping, otherwise keep it unchanged
+        return city_mapping.get(city_name, "Namangan")
 
 
 class Order(BaseModel):
@@ -84,6 +111,8 @@ class Order(BaseModel):
         return f"{self.client.full_name} | {self.pick_up_address.street}"
 
     def clean(self):
+        if self.promocode:
+            UserPromocode.objects.create(promocode=self.promocode, user=self.client)
         """To control the number of people and seats that they occupy"""
         if self.type == Order.OrderType.PERSON:
             number_of_seats = sum([self.front_right, self.back_left, self.back_middle, self.back_right])

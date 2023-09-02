@@ -50,3 +50,24 @@ sentry_sdk.init(
     send_default_pii=True,
     traces_sample_rate=1.0,
 )
+
+# CACHES
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"{env.str('REDIS_URL', 'redis://redis:6379/0')}",
+        "KEY_PREFIX": "tranzit-backend",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
+    }
+}
+# CHANNELS
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [env.str("CELERY_BROKER_URL", "redis://redis:6379")],
+        },
+    },
+}

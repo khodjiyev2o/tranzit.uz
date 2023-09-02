@@ -8,6 +8,9 @@ from apps.users.models import User
 class City(models.TextChoices):
     Namangan = "Namangan", _("Namangan")
     Tashkent = "Tashkent", _("Tashkent")
+    Toshkent = "Toshkent", _("Toshkent")
+    Toshkent_shahar = "Toshkent shahar", _("Toshkent shahar")
+    Namangan_Viloyati = "Namangan Viloyati", _("Namangan Viloyati")
 
 
 class CarModel(models.TextChoices):
