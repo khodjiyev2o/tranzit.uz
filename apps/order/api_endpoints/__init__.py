@@ -7,3 +7,4 @@ from .Promocode import  * # noqa
 from .GetOrderPrice import  * # noqa
 from .UserOrderList import * # noqa
 from .GetOrderPriceDelivery import * # noqa
+from .UserOrderCancel import * # noqa
