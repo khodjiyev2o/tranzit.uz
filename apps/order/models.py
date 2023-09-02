@@ -177,6 +177,12 @@ class Trip(BaseModel):
             Trip.objects.filter(id=self.id).aggregate(total_amount=models.Sum("delivery__price"))["total_amount"] or 0
         )
 
+    @property
+    def total_amount_promo_code(self):
+        return (
+            Trip.objects.filter(id=self.id).aggregate(total_amount=models.Sum("promocode__money_amount"))["total_amount"] or 0
+        )
+
     def __str__(self):
         return f"{self.driver.user.full_name} | {self.status}"
 
