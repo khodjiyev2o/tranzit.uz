@@ -41,7 +41,7 @@ class Location(BaseModel):
             "Namangan": "Namangan",
             "Tashkent": "Tashkent",
             "Toshkent": "Tashkent",
-            # Add more mappings as needed
+
         }
 
         # Standardize the city name if it's in the mapping, otherwise keep it unchanged

@@ -22,9 +22,17 @@ class Promocode(BaseModel):
         db_table = "promocode"
         ordering = ("-id",)
 
+    def is_used_by_user(self, user):
+        # Check if the promocode is used by the given user
+        return self.user_promocode.filter(user=user).exists()
+
+    def __str__(self):
+        return str(self.code)
+
 
 class UserPromocode(BaseModel):
-    promocode = models.ForeignKey(Promocode, on_delete=models.CASCADE, verbose_name=_("Promocode"))
+    promocode = models.ForeignKey(Promocode, on_delete=models.CASCADE, verbose_name=_("Promocode"),
+                                  related_name="user_promocode")
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name=_("User"))
 
     class Meta:
