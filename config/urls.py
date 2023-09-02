@@ -16,6 +16,7 @@ urlpatterns = [
     path("api/common/", include("apps.common.urls")),
     path("api/driver/", include("apps.driver.urls")),
     path("api/order/", include("apps.order.urls")),
+    path("api/payment/", include("apps.payment.urls")),
     path("api/v1/sentry/TriggerError/", trigger_error),
     path("__debug__/", include("debug_toolbar.urls")),
 ]

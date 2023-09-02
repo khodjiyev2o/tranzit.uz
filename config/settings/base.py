@@ -24,6 +24,7 @@ LOCAL_APPS = [
     "apps.common.apps.CommonConfig",
     "apps.driver.apps.DriverConfig",
     "apps.order.apps.OrderConfig",
+    "apps.payment.apps.PaymentConfig",
 ]
 THIRD_PARTY_APPS = [
     "daphne",
