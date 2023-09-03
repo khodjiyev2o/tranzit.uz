@@ -140,6 +140,7 @@ class Order(BaseModel):
     class Meta:
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
+        ordering = ("-id", )
 
 
 class Trip(BaseModel):

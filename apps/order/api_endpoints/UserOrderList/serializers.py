@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from apps.order.models import Order, Driver, Location
+from apps.order.models import Order, Driver, Location, Trip
+from django.db.models import Q
 
 
 class UserOrderDriverSerializer(serializers.ModelSerializer):
@@ -17,7 +18,7 @@ class UserOrderLocationSerializer(serializers.ModelSerializer):
 
 
 class UserOrderListSerializer(serializers.ModelSerializer):
-    driver = UserOrderDriverSerializer()
+    driver = serializers.SerializerMethodField()
     drop_off_address = UserOrderLocationSerializer()
     pick_up_address = UserOrderLocationSerializer()
 
@@ -40,3 +41,7 @@ class UserOrderListSerializer(serializers.ModelSerializer):
             "delivery_user_phone",
             "delivery_type",
         )
+
+    def get_driver(self, obj):
+        print("obj", obj)
+        return UserOrderDriverSerializer(Trip.objects.filter(Q(client=obj) | Q(delivery=obj)).first().driver).data
