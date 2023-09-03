@@ -18,7 +18,7 @@ class DriverTripCompleteView(APIView):
         instance = self.get_object()
 
         # taking fee only for clients, ** delivery is free
-        amount_to_be_taken = instance.total_amount_from_client * settings.TRANSIT_SERVICE_FEE
+        amount_to_be_taken = int(instance.total_amount_from_client * settings.TRANSIT_SERVICE_FEE)
         promocode_amount = instance.total_amount_promo_code
 
         self.update_driver_balance_and_trip_state(
