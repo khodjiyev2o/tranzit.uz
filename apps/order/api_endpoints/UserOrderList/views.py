@@ -6,10 +6,10 @@ from apps.order.api_endpoints.UserOrderList.serializers import UserOrderListSeri
 
 class UserOrderListView(ListAPIView):
     serializer_class = UserOrderListSerializer
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.filter(client__phone="+998913665113")
+        return Order.objects.filter(client=self.request.user)
 
 
 __all__ = ['UserOrderListView']
