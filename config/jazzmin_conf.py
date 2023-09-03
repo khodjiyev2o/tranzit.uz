@@ -66,14 +66,11 @@ JAZZMIN_SETTINGS: dict = {
         "users.User": "fas fa-user",
         "common.Promocode": "fas fa-file-alt",
         "common.UserPromocode": "fas fa-share-alt",
-
-
         "driver.Driver": "fas fa-taxi",
         "order.Location": "fas fa-map",
         "order.Order": "fas fa-tasks",
         "order.Trip": "fas fa-route",
         "order.Request": "fas fa-clock",
-
     },
     # Icons that are used when one is not manually specified
     "default_icon_parents": "fas fa-folder",
@@ -108,7 +105,7 @@ JAZZMIN_SETTINGS: dict = {
         "auth.group": "vertical_tabs",
     },
     # Add a language dropdown into the admin
-   # "language_chooser": True,
+    # "language_chooser": True,
 }
 
 JAZZMIN_UI_TWEAKS = {

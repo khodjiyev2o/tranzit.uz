@@ -1,8 +1,10 @@
 import base64
+
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+
 from apps.common.models import BaseModel
 
 
@@ -40,7 +42,9 @@ class Order(BaseModel):
         if self.provider == Provider.PAYME:
             base_url = "https://checkout.paycom.uz"
             merchant_id = settings.PROVIDERS["payme"]["merchant_id"]
-            params = f"m={merchant_id};ac.order_id={self.id};a={self.transaction_amount * 100};c=https://transitgroup.uz"
+            params = (
+                f"m={merchant_id};ac.order_id={self.id};a={self.transaction_amount * 100};c=https://transitgroup.uz"
+            )
             encode_params = base64.b64encode(params.encode("utf-8"))
             encode_params = str(encode_params, "utf-8")
             payment_url = f"{base_url}/{encode_params}"

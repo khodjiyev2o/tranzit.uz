@@ -3,6 +3,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import environ
+
 from config.jazzmin_conf import *  # noqa
 
 
@@ -177,6 +178,5 @@ PRICING_RULES = {
     "back_left": 120000,
     "back_right": 120000,
     "back_middle": 110000,
-
 }
 DISCOUNT_PRICE_FOR_ADDITIONAL_PERSON = 5000

@@ -8,8 +8,7 @@ from apps.users.models import User
 
 
 class Location(BaseModel):
-    city = models.CharField(max_length=256, default=City.Namangan, verbose_name=_("City"),
-                            null=True, blank=True)
+    city = models.CharField(max_length=256, default=City.Namangan, verbose_name=_("City"), null=True, blank=True)
     street = models.CharField(max_length=256, verbose_name=_("Street"), null=True, blank=True)
     latitude = models.CharField(max_length=256, verbose_name=_("Latitude"))
     longitude = models.CharField(max_length=256, verbose_name=_("Longitude"))
@@ -36,12 +35,11 @@ class Location(BaseModel):
             "Tashkent viloyati": "Tashkent",
             "Namangan viloyati": "Namangan",
             "Namangan shahar": "Namangan",
-            'Namangan shahri': "Namangan",
+            "Namangan shahri": "Namangan",
             "Toshkent shahri": "Tashkent",
             "Namangan": "Namangan",
             "Tashkent": "Tashkent",
             "Toshkent": "Tashkent",
-
         }
 
         # Standardize the city name if it's in the mapping, otherwise keep it unchanged
@@ -101,8 +99,9 @@ class Order(BaseModel):
     has_air_conditioner = models.BooleanField(default=True, verbose_name=_("Has Air Conditioner"))
     has_baggage = models.BooleanField(default=True, verbose_name=_("Has Baggage"))
     smoking_allowed = models.BooleanField(default=False, verbose_name=_("Smoking Allowed"))
-    promocode = models.ForeignKey("common.Promocode", on_delete=models.SET_NULL, verbose_name=_("Promocode"), null=True,
-                                  blank=True)
+    promocode = models.ForeignKey(
+        "common.Promocode", on_delete=models.SET_NULL, verbose_name=_("Promocode"), null=True, blank=True
+    )
 
     # FK
     client = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_("Client"))
@@ -140,7 +139,7 @@ class Order(BaseModel):
     class Meta:
         verbose_name = _("Order")
         verbose_name_plural = _("Orders")
-        ordering = ("-id", )
+        ordering = ("-id",)
 
 
 class Trip(BaseModel):
@@ -181,7 +180,10 @@ class Trip(BaseModel):
     @property
     def total_amount_promo_code(self):
         return (
-            Trip.objects.filter(id=self.id).aggregate(total_amount=models.Sum("promocode__money_amount"))["total_amount"] or 0
+            Trip.objects.filter(id=self.id).aggregate(total_amount=models.Sum("client__promocode__money_amount"))[
+                "total_amount"
+            ]
+            or 0
         )
 
     def __str__(self):

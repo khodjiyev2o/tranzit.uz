@@ -1,7 +1,6 @@
 # Create your views here.
-from rest_framework.views import APIView
-
 from django.db import transaction
+from rest_framework.views import APIView
 
 from apps.payment.models import PaymentMerchantRequestLog
 

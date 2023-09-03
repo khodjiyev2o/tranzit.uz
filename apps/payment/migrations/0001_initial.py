@@ -49,9 +49,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "total_amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Total Amount"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Total Amount"),
                 ),
                 ("is_paid", models.BooleanField(default=False, verbose_name="Is Paid")),
                 (
@@ -140,15 +138,11 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "transaction_id",
-                    models.CharField(
-                        max_length=255, null=True, verbose_name="Transaction ID"
-                    ),
+                    models.CharField(max_length=255, null=True, verbose_name="Transaction ID"),
                 ),
                 (
                     "amount",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="Amount"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="Amount"),
                 ),
                 (
                     "status",
@@ -169,9 +163,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "cancel_time",
-                    models.DateTimeField(
-                        blank=True, null=True, verbose_name="Cancel Time"
-                    ),
+                    models.DateTimeField(blank=True, null=True, verbose_name="Cancel Time"),
                 ),
                 (
                     "order",

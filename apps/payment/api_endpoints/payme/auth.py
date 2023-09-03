@@ -1,10 +1,10 @@
 import base64
 import binascii
 
+from django.conf import settings
 from rest_framework import HTTP_HEADER_ENCODING
 from rest_framework.authentication import get_authorization_header
 
-from django.conf import settings
 
 AUTH_ERROR = {
     "error": {

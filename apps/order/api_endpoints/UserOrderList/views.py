@@ -1,7 +1,8 @@
 from rest_framework.generics import ListAPIView
-from apps.order.models import Order
 from rest_framework.permissions import IsAuthenticated
+
 from apps.order.api_endpoints.UserOrderList.serializers import UserOrderListSerializer
+from apps.order.models import Order
 
 
 class UserOrderListView(ListAPIView):
@@ -12,4 +13,4 @@ class UserOrderListView(ListAPIView):
         return Order.objects.filter(client=self.request.user)
 
 
-__all__ = ['UserOrderListView']
+__all__ = ["UserOrderListView"]

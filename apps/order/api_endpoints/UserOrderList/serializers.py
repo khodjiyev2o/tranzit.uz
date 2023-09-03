@@ -1,6 +1,7 @@
-from rest_framework import serializers
-from apps.order.models import Order, Driver, Location, Trip
 from django.db.models import Q
+from rest_framework import serializers
+
+from apps.order.models import Driver, Location, Order, Trip
 
 
 class UserOrderDriverSerializer(serializers.ModelSerializer):
@@ -8,7 +9,7 @@ class UserOrderDriverSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Driver
-        fields = ("phone", )
+        fields = ("phone",)
 
 
 class UserOrderLocationSerializer(serializers.ModelSerializer):
@@ -53,4 +54,3 @@ class UserOrderListSerializer(serializers.ModelSerializer):
 
         # If neither person_orders nor deliveries have a driver, return None
         return None
-

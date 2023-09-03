@@ -2,12 +2,12 @@ from django.urls import path
 
 from .api_endpoints import order, payme
 
+
 app_name = "payment"
 
 urlpatterns = [
     # create course order
-    #path("CourseOrderCreate", order.CourseOrderCreateAPIView.as_view(), name="course-order-create"),
-
+    # path("CourseOrderCreate", order.CourseOrderCreateAPIView.as_view(), name="course-order-create"),
     # path(
     #     "GetLastTransactionStatus/<int:order_id>",
     #     order.GetLastTransactionStatusAPIView.as_view(),

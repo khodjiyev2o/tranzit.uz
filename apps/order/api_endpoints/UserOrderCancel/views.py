@@ -1,7 +1,10 @@
-from apps.order.models import Order
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.generics import GenericAPIView
-from apps.order.api_endpoints.UserOrderCancel.serializers import UserOrderCancelSerializer
+from rest_framework.permissions import IsAuthenticated
+
+from apps.order.api_endpoints.UserOrderCancel.serializers import (
+    UserOrderCancelSerializer,
+)
+from apps.order.models import Order
 
 
 class UserOrderCancelView(GenericAPIView):
@@ -17,4 +20,4 @@ class UserOrderCancelView(GenericAPIView):
         order.save()
 
 
-__all__ = ['UserOrderCancelView']
+__all__ = ["UserOrderCancelView"]

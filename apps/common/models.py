@@ -31,8 +31,9 @@ class Promocode(BaseModel):
 
 
 class UserPromocode(BaseModel):
-    promocode = models.ForeignKey(Promocode, on_delete=models.CASCADE, verbose_name=_("Promocode"),
-                                  related_name="user_promocode")
+    promocode = models.ForeignKey(
+        Promocode, on_delete=models.CASCADE, verbose_name=_("Promocode"), related_name="user_promocode"
+    )
     user = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name=_("User"))
 
     class Meta:

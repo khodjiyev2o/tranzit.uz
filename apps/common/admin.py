@@ -1,5 +1,6 @@
-from apps.common.models import Promocode, UserPromocode
 from django.contrib import admin
+
+from apps.common.models import Promocode, UserPromocode
 
 
 @admin.register(Promocode)

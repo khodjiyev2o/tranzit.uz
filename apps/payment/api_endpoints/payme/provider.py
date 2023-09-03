@@ -1,11 +1,6 @@
 from django.utils import timezone
 
-from apps.payment.models import (
-    Order,
-    Provider,
-    Transaction,
-    TransactionStatus,
-)
+from apps.payment.models import Order, Provider, Transaction, TransactionStatus
 
 
 class PaymeProvider:

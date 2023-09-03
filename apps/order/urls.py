@@ -1,16 +1,16 @@
 from django.urls import path
 
 from apps.order.api_endpoints import (
+    GetDeliveryOrderPriceAPIView,
+    GetOrderPriceAPIView,
     OrderAcceptView,
     OrderCancelView,
     OrderCreateView,
     OrderDetailView,
     OrderListView,
     PromocodeRetrieveView,
-    GetOrderPriceAPIView,
-    UserOrderListView,
-    GetDeliveryOrderPriceAPIView,
     UserOrderCancelView,
+    UserOrderListView,
 )
 
 

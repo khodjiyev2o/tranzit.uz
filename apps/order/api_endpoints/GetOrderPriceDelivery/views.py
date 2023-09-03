@@ -1,7 +1,10 @@
+from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework import status
-from apps.order.api_endpoints.GetOrderPriceDelivery.serializers import GetDeliveryOrderPriceSerializer
+
+from apps.order.api_endpoints.GetOrderPriceDelivery.serializers import (
+    GetDeliveryOrderPriceSerializer,
+)
 
 
 class GetDeliveryOrderPriceAPIView(GenericAPIView):
@@ -12,8 +15,12 @@ class GetDeliveryOrderPriceAPIView(GenericAPIView):
         if serializer.is_valid():
             # Calculate the price based on criteria
             overall_price = self.calculate_price(serializer.validated_data)
-            return Response({"overall_price": overall_price, },
-                            status=status.HTTP_200_OK)
+            return Response(
+                {
+                    "overall_price": overall_price,
+                },
+                status=status.HTTP_200_OK,
+            )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -21,4 +28,4 @@ class GetDeliveryOrderPriceAPIView(GenericAPIView):
         return 50000
 
 
-__all__ = ['GetDeliveryOrderPriceAPIView']
+__all__ = ["GetDeliveryOrderPriceAPIView"]

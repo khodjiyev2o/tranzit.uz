@@ -1,1 +1,1 @@
-from .Payme import * # noqa
+from .Payme import *  # noqa

@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from apps.order.models import Order, City
+
+from apps.order.models import City, Order
 
 
 class GeneratePriceSerializer(serializers.ModelSerializer):
@@ -19,8 +20,8 @@ class GeneratePriceSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, attrs):
-        pick_up_city = attrs.get('pick_up_address')['city']
-        drop_off_city = attrs.get('drop_off_address')['city']
+        pick_up_city = attrs.get("pick_up_address")["city"]
+        drop_off_city = attrs.get("drop_off_address")["city"]
         number_of_people = attrs.get("number_of_people")
         front_right = attrs.get("front_right")
         back_left = attrs.get("back_left")

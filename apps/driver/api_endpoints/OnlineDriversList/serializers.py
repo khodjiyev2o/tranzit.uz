@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from apps.driver.models import Driver
 from apps.order.models import Trip
 from apps.users.models import User
@@ -24,7 +25,11 @@ class OnlineDriverListTripSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ("id", "driver", "number_of_people", )
+        fields = (
+            "id",
+            "driver",
+            "number_of_people",
+        )
 
     def get_number_of_people(self, obj):
         return obj.client.count()

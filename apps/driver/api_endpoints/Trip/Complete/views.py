@@ -21,8 +21,9 @@ class DriverTripCompleteView(APIView):
         amount_to_be_taken = instance.total_amount_from_client * settings.TRANSIT_SERVICE_FEE
         promocode_amount = instance.total_amount_promo_code
 
-        self.update_driver_balance_and_trip_state(trip=instance, amount=amount_to_be_taken,
-                                                  promocode_amount=promocode_amount)
+        self.update_driver_balance_and_trip_state(
+            trip=instance, amount=amount_to_be_taken, promocode_amount=promocode_amount
+        )
         return response.Response(
             {
                 "message": "Successfully completed the trip",

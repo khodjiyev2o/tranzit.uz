@@ -13,8 +13,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="location",
             name="street",
-            field=models.CharField(
-                blank=True, max_length=256, null=True, verbose_name="Street"
-            ),
+            field=models.CharField(blank=True, max_length=256, null=True, verbose_name="Street"),
         ),
     ]

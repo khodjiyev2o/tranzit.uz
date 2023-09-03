@@ -41,9 +41,7 @@ class Migration(migrations.Migration):
                 ("expires_at", models.DateTimeField(verbose_name="Expired at")),
                 (
                     "max_usage_count",
-                    models.IntegerField(
-                        default=100, verbose_name="Maximum Usage Count"
-                    ),
+                    models.IntegerField(default=100, verbose_name="Maximum Usage Count"),
                 ),
                 ("money_amount", models.IntegerField(default=0)),
             ],
