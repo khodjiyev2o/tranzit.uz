@@ -43,5 +43,14 @@ class UserOrderListSerializer(serializers.ModelSerializer):
         )
 
     def get_driver(self, obj):
-        print("obj", obj)
-        return UserOrderDriverSerializer(Trip.objects.filter(Q(client=obj) | Q(delivery=obj)).first().driver).data
+        # Check if the order has a driver in person_orders
+        if obj.person_orders.exists():
+            return UserOrderDriverSerializer(obj.person_orders.first().driver).data
+
+        # Check if the order has a driver in deliveries
+        if obj.deliveries.exists():
+            return UserOrderDriverSerializer(obj.deliveries.first().driver).data
+
+        # If neither person_orders nor deliveries have a driver, return None
+        return None
+
