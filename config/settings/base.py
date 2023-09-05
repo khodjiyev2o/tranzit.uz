@@ -160,7 +160,29 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
+PROVIDERS = {
+    "payme": {
+        "merchant_id": env.str("PAYME_MERCHANT_ID", "64e3133940e7b5db6310d605"),
+        "secret_key": env.str("PAYME_SECRET_KEY", "cR2D6qaN9mVTmNYKrovpVQt?BWDMOzgrr%JS"),
+        "test_secret_key": env.str("PAYME_TEST_SECRET_KEY", "Dec%o4b%oKvERKPPOxu&pigeNWHe8VOzDs?N"),
+    },
+    "click": {
+        "url": "https://my.click.uz/services/pay",
+        "merchant_id": env.str("CLICK_MERCHANT_ID", ""),
+        "merchant_service_id": env.str("CLICK_MERCHANT_SERVICE_ID", ""),
+        "merchant_user_id": env.str("CLICK_MERCHANT_USER_ID", ""),
+        "secret_key": env.str("CLICK_SECRET_KEY", ""),
+    },
+    "karmon_pay": {
+        "api_key": env.str("KARMON_PAY_API_KEY", ""),
+    },
+    "uzum_bank": {
+        "service_id": env.str("UZUM_BANK_SERVICE_ID", ""),
+        "cash_id": env.str("UZUM_BANK_CASH_ID", ""),
+        "username": env.str("UZUM_BANK_USERNAME", ""),
+        "password": env.str("UZUM_BANK_PASSWORD", ""),
+    },
+}
 
 INTERNAL_IPS = [
     "localhost",
