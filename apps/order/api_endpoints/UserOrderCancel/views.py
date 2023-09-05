@@ -5,6 +5,7 @@ from apps.order.api_endpoints.UserOrderCancel.serializers import (
     UserOrderCancelSerializer,
 )
 from apps.order.models import Order
+from rest_framework.response import Response
 
 
 class UserOrderCancelView(GenericAPIView):
@@ -18,6 +19,8 @@ class UserOrderCancelView(GenericAPIView):
 
         order.status = Order.OrderStatus.CANCELED
         order.save()
+
+        return Response({"message": "Canceled successfully!"}, status=200)
 
 
 __all__ = ["UserOrderCancelView"]
