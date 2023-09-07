@@ -135,10 +135,9 @@ SIMPLE_JWT = {
 
 # swagger settings
 SWAGGER_SETTINGS = {
-    "SECURITY_DEFINITIONS": {
-        "Bearer": {"USE_SESSION_AUTH": False, "type": "apiKey", "name": "HTTP_AUTHORIZATION", "in": "header"}
-    }
+    "SECURITY_DEFINITIONS": {"api_key": {"type": "apiKey", "in": "header", "name": "Authorization"}},
 }
+
 
 # CACHES
 CACHES = {
