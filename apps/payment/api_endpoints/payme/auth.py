@@ -32,6 +32,7 @@ def authentication(request):
 
     try:
         auth_parts = base64.b64decode(auth[1]).decode(HTTP_HEADER_ENCODING).partition(":")
+        print(auth_parts)
     except (TypeError, UnicodeDecodeError, binascii.Error):
         return False
 

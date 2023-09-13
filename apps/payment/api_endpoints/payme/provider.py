@@ -106,7 +106,7 @@ class PaymeProvider:
         if not self.params.get("account"):
             return
         try:
-            return Order.objects.get(id=self.params["account"]["order_id"])
+            return Order.objects.get(driver__user__phone=self.params["account"]["phone"])
         except Order.DoesNotExist:
             return
 
@@ -117,7 +117,7 @@ class PaymeProvider:
             self.code = self.ORDER_ALREADY_PAID
 
     def validate_amount(self, amount):
-        if amount != self.order.transaction_amount:
+        if amount <= 0:
             self.error = True
             self.error_message = self.INVALID_AMOUNT_MESSAGE
             self.code = self.INVALID_AMOUNT
