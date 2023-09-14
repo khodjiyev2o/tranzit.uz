@@ -63,7 +63,7 @@ class PaymeAPIView(PaymentView):
             return dict(error=dict(code=code, message=error_message))
 
         transaction = (
-            Transaction.objects.filter(order_id=self.params["account"]["order_id"], transaction_id=self.params["id"])
+            Transaction.objects.filter(order__driver__user__phone=self.params["account"]["phone"], transaction_id=self.params["id"])
             .order_by("-id")
             .first()
         )
