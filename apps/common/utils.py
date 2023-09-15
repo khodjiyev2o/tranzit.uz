@@ -1,3 +1,5 @@
+import sys
+
 import environ
 from django.conf import settings
 from django.core.cache import cache
@@ -16,9 +18,9 @@ def send_activation_code_via_sms(phone: str, cache_type: str, session: str):
     else:
         code = generate_code()
         cache.set(generate_cache_key(cache_type, phone, session), code, timeout=120)
-
-        message_data = f"Tranzit.uz uchun <#> Tasdiqlash kodi: {code}"
-        email = env.str("ESKIZ_USER_EMAIL")
-        password = env.str("ESKIZ_USER_PASSWORD")
-        eskiz = EskizSMS(email=email, password=password)
-        eskiz.send_sms(mobile_phone=phone[1:], message=message_data, from_whom="4546", callback_url=None)
+        if not 'test' in sys.argv:
+            message_data = f"Tranzit.uz uchun <#> Tasdiqlash kodi: {code}"
+            email = env.str("ESKIZ_USER_EMAIL", "samandarkhodjiyev@gmail.com")
+            password = env.str("ESKIZ_USER_PASSWORD", "b9LHEGCG9fppE4B2D7rEexqk4AgYVMIUr10JKXP3")
+            eskiz = EskizSMS(email=email, password=password)
+            eskiz.send_sms(mobile_phone=phone[1:], message=message_data, from_whom="4546", callback_url=None)
