@@ -54,10 +54,6 @@ class DriverRegisterPhoneVerifyView(TokenObtainPairView):
         full_name = serializer.validated_data.get("full_name")
         cache_key = generate_cache_key(CacheTypes.registration_sms_verification, phone, session)
 
-        if code == "111111":
-            user, _c = User.objects.get_or_create(phone=phone, defaults={"full_name": full_name})
-            return Response(data=user.tokens, status=status.HTTP_200_OK)
-
         if not self.is_code_valid(cache_key, code):
             return Response({"detail": _("Wrong code!")}, status=status.HTTP_400_BAD_REQUEST)
         user, _c = User.objects.get_or_create(phone=phone, defaults={"full_name": full_name})
