@@ -9,6 +9,7 @@ DATABASES = {
     }
 }
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
+TEST = env.str("TEST", True)
 
 # for github actions ci/cd
 

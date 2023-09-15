@@ -33,7 +33,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def delete_order(self, event):
         """
-        Send deleted order delets to the connected drivers in the 'orders' group
+        Send deleted order deletes to the connected drivers in the 'orders' group
         """
         data = event["data"]
         await self.send(text_data=json.dumps(data))
