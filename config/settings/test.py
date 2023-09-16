@@ -11,8 +11,6 @@ DATABASES = {
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]
 TEST = True
 
-# for github actions ci/cd
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
