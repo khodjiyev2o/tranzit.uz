@@ -5,6 +5,7 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from apps.common.utils import send_activation_code_via_sms
 
 from apps.users.api_endpoints.CreateAccount.serializers import (
     UserCreateAccountSerializer,
@@ -29,6 +30,8 @@ class UserCreateAccountView(APIView):
             raise ValidationError(detail={"phone": _("SMS is already sent!")}, code="timeout")
 
         # send 6 digits code to phone
+        send_activation_code_via_sms(str(phone), CacheTypes.registration_sms_verification, session)
+
         return Response({"session": session})
 
 

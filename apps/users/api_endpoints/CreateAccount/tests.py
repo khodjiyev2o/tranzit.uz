@@ -52,5 +52,4 @@ def test_create_user_profile_already_existing(client, new_user):
     url = reverse("user-create-account")
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    print(response.json())
     assert response.json()["non_field_errors"] == ["User already exists"]
