@@ -82,7 +82,7 @@ class PaymeProvider:
         ).order_by("-id")
 
         if check_transaction and check_transaction.first().transaction_id != self.params["id"]:
-            return True, self.TRANSACTION_NOT_FOUND_MESSAGE, self.TRANSACTION_NOT_FOUND
+            return True, self.UNABLE_TO_PERFORM_OPERATION_MESSAGE, self.UNABLE_TO_PERFORM_OPERATION
 
         transaction, _ = Transaction.objects.get_or_create(
             transaction_id=self.params["id"],
@@ -117,7 +117,7 @@ class PaymeProvider:
             self.code = self.ORDER_ALREADY_PAID
 
     def validate_amount(self, amount):
-        if amount <= 0:
+        if amount <= 1000000:
             self.error = True
             self.error_message = self.INVALID_AMOUNT_MESSAGE
             self.code = self.INVALID_AMOUNT
