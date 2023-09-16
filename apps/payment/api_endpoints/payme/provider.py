@@ -117,7 +117,7 @@ class PaymeProvider:
             self.code = self.ORDER_ALREADY_PAID
 
     def validate_amount(self, amount):
-        if amount <= 10000:
+        if amount <= 0:
             self.error = True
             self.error_message = self.INVALID_AMOUNT_MESSAGE
             self.code = self.INVALID_AMOUNT
