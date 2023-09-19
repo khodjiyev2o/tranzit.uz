@@ -41,5 +41,6 @@ def test_driver_send_sms_wrong_code(client):
     url = reverse("driver-register-verify-phone")
     data = {"code": 123456, "session": response.json()["session"], "phone": "+998996613344", "full_name": "Samandar"}
     response = client.post(url, data=data, content_type="application/json")
-    assert response.json()["detail"] == "Wrong code!"
+
     assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.json()['errors'][0]['code'] == 'code_invalid'

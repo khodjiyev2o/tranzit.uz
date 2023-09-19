@@ -3,7 +3,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import environ
-
+from django.utils.translation import gettext_lazy as _
 from config.jazzmin_conf import *  # noqa
 
 
@@ -99,15 +99,30 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = "en"
-
 TIME_ZONE = "Asia/Tashkent"
 
+# LANGUAGE SETTINGS
+LANGUAGE_CODE = "en"
 USE_I18N = True
-
 USE_TZ = True
+USE_L10N = True
 
+LANGUAGES = [
+    ("uz", _("Uzbek")),
+    ("en", _("English")),
+    ("ru", _("Russian")),
+]
+MODELTRANSLATION_LANGUAGES_CHOICES = (
+    ("uz", _("Uzbek")),
+    ("en", _("English")),
+    ("ru", _("Russian")),
+)
+MODELTRANSLATION_LANGUAGES = ("uz", "ru", "en")
+MODELTRANSLATION_DEFAULT_LANGUAGE = "uz"
+MODELTRANSLATION_FALLBACK_LANGUAGES = ("uz", "ru", "en")
+LOCALE_PATHS = (os.path.join(BASE_DIR, " locale"),)
 
+# STATIC AND MEDIA SETTINGS
 STATIC_URL = "staticfiles/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = (BASE_DIR / "static",)
@@ -117,13 +132,14 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
+# REST FRAMEWORK SETTINGS
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
     "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.SearchFilter",
     ),
+    "EXCEPTION_HANDLER": "helpers.exception_handler.custom_exception_handler",
 }
 
 
@@ -133,7 +149,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True,
 }
 
-# swagger settings
+# SWAGGER SETTINGS
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {"api_key": {"type": "apiKey", "in": "header", "name": "Authorization"}},
 }
@@ -150,6 +166,7 @@ CACHES = {
         },
     }
 }
+
 # CHANNELS
 CHANNEL_LAYERS = {
     "default": {
@@ -159,6 +176,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+# PAYMENT SETTINGS
 PROVIDERS = {
     "payme": {
         "merchant_id": env.str("PAYME_MERCHANT_ID", "64e3133940e7b5db6310d605"),
@@ -183,13 +202,6 @@ PROVIDERS = {
     },
 }
 
-INTERNAL_IPS = [
-    "localhost",
-    "127.0.0.1",
-]
-
-TEST = env.str("TEST", False)
-SENTRY_DSN = env.str("SENTRY_DSN")
 
 # COMPANY SETTINGS
 TRANSIT_SERVICE_FEE = 0.05

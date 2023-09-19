@@ -27,7 +27,7 @@ class DriverLoginSendSMSView(GenericAPIView):
         serializer.is_valid(raise_exception=True)
         # check if driver account already exists
         if not self.driver_exists(request):
-            return Response({"success": False, "message": _("Driver not found!")}, status=HTTP_404_NOT_FOUND)
+            raise ValidationError(detail={"driver": _("Driver not found!")}, code="not_found")
 
         phone = serializer.validated_data.get("phone")
         session = get_random_string(length=16)

@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from apps.users.models import User
-from rest_framework.exceptions import ValidationError
 
 
 class UserCreateAccountSerializer(serializers.Serializer):
@@ -11,6 +10,6 @@ class UserCreateAccountSerializer(serializers.Serializer):
         user = User.objects.filter(phone=phone).first()
 
         if user is not None:
-            raise ValidationError(detail="User already exists", code="user_exists")
+            raise serializers.ValidationError(detail={"user": "User already exists"}, code="exists")
 
         return attrs

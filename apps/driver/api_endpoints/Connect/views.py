@@ -1,5 +1,3 @@
-# chat/views.py
-from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -39,7 +37,3 @@ class DriverOfflineStateView(APIView):
         driver.save()
 
         return Response({"success": True, "is_online": driver.is_online}, status=status.HTTP_200_OK)
-
-
-def index(request):
-    return render(request, "order/main.html")

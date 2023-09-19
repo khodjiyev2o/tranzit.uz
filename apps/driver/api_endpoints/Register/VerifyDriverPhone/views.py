@@ -11,6 +11,7 @@ from apps.driver.api_endpoints.Register.VerifyDriverPhone.serializers import (
 )
 from apps.users.models import User
 from helpers.cache import CacheTypes, generate_cache_key
+from rest_framework.exceptions import ValidationError
 
 
 class DriverRegisterPhoneVerifyView(TokenObtainPairView):
@@ -59,7 +60,8 @@ class DriverRegisterPhoneVerifyView(TokenObtainPairView):
             return Response(data=user.tokens, status=status.HTTP_200_OK)
 
         if not self.is_code_valid(cache_key, code):
-            return Response({"detail": _("Wrong code!")}, status=status.HTTP_400_BAD_REQUEST)
+            raise ValidationError(detail={"code": _("Wrong code!")}, code="invalid")
+
         user, _c = User.objects.get_or_create(phone=phone, defaults={"full_name": full_name})
         return Response(data=user.tokens, status=status.HTTP_200_OK)
 

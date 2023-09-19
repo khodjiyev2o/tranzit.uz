@@ -11,6 +11,9 @@ class DriverOrderCancelSerializer(serializers.Serializer):
         try:
             order = Order.objects.get(pk=order_id, status=Order.OrderStatus.IN_PROGRESS)
         except Order.DoesNotExist:
-            raise serializers.ValidationError(_("Order not found or already canceled."))
+            raise serializers.ValidationError(
+                detail={"order": _("Order not found or already taken by another driver.")},
+                code="not_found"
+            )
 
         return order

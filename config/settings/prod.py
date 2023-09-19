@@ -45,6 +45,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://transitgroup.uz",
 ]
 
+SENTRY_DSN = env.str("SENTRY_DSN")
 sentry_sdk.init(
     dsn=SENTRY_DSN,
     integrations=[DjangoIntegration()],

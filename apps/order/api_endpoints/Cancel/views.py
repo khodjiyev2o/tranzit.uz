@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from apps.order.api_endpoints.Cancel.serializers import DriverOrderCancelSerializer
 from apps.order.models import Order, Trip
 from helpers.permissions import CustomDriverPermission
+from rest_framework.exceptions import ValidationError
 
 
 class OrderCancelView(generics.GenericAPIView):
@@ -27,7 +28,10 @@ class OrderCancelView(generics.GenericAPIView):
                 order.canceled_by_driver()  # returning to the requested state
                 return Response({"message": _("Successfully removed")}, status=status.HTTP_200_OK)
             else:
-                return Response({"message": _("Order does not exist on your trip")}, status=status.HTTP_404_NOT_FOUND)
+                raise ValidationError(
+                    detail={"order": _("Order does not exist on your trip")},
+                    code="not_found"
+                )
 
         else:
             if trip.delivery.filter(id=order.id).exists():
@@ -35,7 +39,10 @@ class OrderCancelView(generics.GenericAPIView):
                 order.canceled_by_driver()
                 return Response({"message": _("Successfully removed")}, status=status.HTTP_200_OK)
             else:
-                return Response({"message": _("Order does not exist on your trip")}, status=status.HTTP_404_NOT_FOUND)
+                raise ValidationError(
+                    detail={"order": _("Order does not exist on your trip")},
+                    code="not_found"
+                )
 
 
 __all__ = ["OrderCancelView"]

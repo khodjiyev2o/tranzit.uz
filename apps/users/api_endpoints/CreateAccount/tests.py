@@ -27,7 +27,7 @@ def test_create_user_profile_cache_timeout(client):
 
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()["phone"] == "SMS is already sent!"
+    assert response.json()['errors'][0]['code'] == 'phone_timeout'
 
 
 @pytest.mark.django_db
@@ -40,16 +40,17 @@ def test_create_user_profile_without_phone(client):
     response = client.post(url, data=payload, content_type="application/json")
 
     assert response.status_code == 400
-    assert response.json()["phone"] == ["This field is required."]
+    assert response.json()['errors'][0]['code'] == 'phone_required'
 
 
 @pytest.mark.django_db
 def test_create_user_profile_already_existing(client, new_user):
 
     payload = {
-        "phone": new_user.phone,
+        "phone": str(new_user.phone),
     }
     url = reverse("user-create-account")
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()["non_field_errors"] == ["User already exists"]
+    assert response.json()['errors'][0]['code'] == 'user_exists'
+

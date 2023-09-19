@@ -10,9 +10,10 @@ from helpers.cache import CacheTypes, generate_cache_key
 def test_send_sms_for_login_driver(client, new_driver):
     url = reverse("driver-login-send-sms")
     payload = {
-        "phone": new_driver.user.phone,
+        "phone": f"{new_driver.user.phone}",
     }
     response = client.post(url, data=payload, content_type="application/json")
+    print(response.json())
     assert response.status_code == status.HTTP_200_OK
     assert list(response.json().keys()) == ["session"]
 
@@ -24,9 +25,22 @@ def test_send_sms_for_driver_to_login_no_existing_phone(client):
         "phone": "+9982229900",
     }
     response = client.post(url, data=payload, content_type="application/json")
-    assert response.status_code == 404
-    assert response.json()["success"] is False
-    assert response.json()["message"] == "Driver not found!"
+    assert response.status_code == 400
+    assert response.json()['errors'][0]['code'] == 'phone_invalid_phone_number'
+    assert response.json()['errors'][0]['message'] == 'The phone number entered is not valid.'
+
+
+@pytest.mark.django_db
+def test_send_sms_for_driver_not_found(client):
+    url = reverse("driver-login-send-sms")
+    payload = {
+        "phone": "+998887716677",
+    }
+    response = client.post(url, data=payload, content_type="application/json")
+    assert response.status_code == 400
+    assert response.json()['errors'][0]['code'] == 'driver_not_found'
+    assert response.json()['errors'][0]['message'] == 'Driver not found!'
+
 
 
 @pytest.mark.django_db
@@ -42,4 +56,4 @@ def test_send_sms_for_driver_timeout_error(client, new_driver):
     cache.set(generate_cache_key(cache_type, phone, session), code, timeout=5)
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()["phone"] == "SMS is already sent!"
+    assert response.json()['errors'][0]['code'] == 'phone_timeout'

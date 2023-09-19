@@ -12,7 +12,7 @@ def test_user_send_sms_login(client):
     new_user = UserFactory(phone="+998912249735")
     url = reverse("user-login-send-sms")
     payload = {
-        "phone": new_user.phone,
+        "phone": str(new_user.phone),
     }
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == status.HTTP_200_OK
@@ -34,7 +34,7 @@ def test_user_send_sms_login_timeout_error(client, new_user):
     url = reverse("user-login-send-sms")
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()["phone"] == "SMS is already sent!"
+    assert response.json()['errors'][0]['code'] == 'phone_timeout'
 
 
 @pytest.mark.django_db
@@ -44,6 +44,5 @@ def test_send_sms_user_login_with_existing_phone(client):
         "phone": "+998913665113",
     }
     response = client.post(url, data=payload, content_type="application/json")
-    assert response.status_code == 404
-    assert response.json()["success"] is False
-    assert response.json()["message"] == "User not found!"
+    assert response.status_code == 400
+    assert response.json()['errors'][0]['code'] == 'user_not_found'

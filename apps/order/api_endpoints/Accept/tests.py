@@ -27,7 +27,7 @@ def test_accept_order_not_found(client, new_driver, new_order):
     }
     response = client.post(url, data=data, **headers)
     assert response.status_code == 400
-    assert response.json()["order"] == ["Order not found or already taken by another driver."]
+    assert response.json()['errors'][0]['code'] == "order_not_found"
 
 
 @pytest.mark.django_db
@@ -69,7 +69,8 @@ def test_accept_order_different_location_conflict_person(client, new_driver):
         "order": new_order.id,
     }
     response = client.post(url, data=data, **headers)
-    assert response.json()["detail"] == "All client orders and deliveries should have the same pick-up address."
+    assert response.json()["errors"][0]['message'] == \
+           "All client orders and deliveries should have the same pick-up address."
     assert response.status_code == 400
 
 
@@ -99,7 +100,8 @@ def test_accept_order_different_location_conflict_delivery(client, new_driver):
         "order": new_order.id,
     }
     response = client.post(url, data=data, **headers)
-    assert response.json()["detail"] == "All client orders and deliveries should have the same pick-up address."
+    assert response.json()["errors"][0]['message'] == \
+           "All client orders and deliveries should have the same pick-up address."
     assert response.status_code == 400
 
 
@@ -156,7 +158,7 @@ def test_accept_order_conflicting_seats(client, new_driver, new_location):
         "order": new_order.id,
     }
     response = client.post(url, data=data, **headers)
-    assert response.json()["detail"] == "Seats conflict with another order"
+    assert response.json()["errors"][0]['message'] == "Seats conflict with another order"
     assert response.status_code == 400
 
     # 2nd case - failure
@@ -170,7 +172,7 @@ def test_accept_order_conflicting_seats(client, new_driver, new_location):
         "order": new_order.id,
     }
     response = client.post(url, data=data, **headers)
-    assert response.json()["detail"] == "Seats conflict with another order"
+    assert response.json()["errors"][0]['message'] == "Seats conflict with another order"
     assert response.status_code == 400
 
     # 3rd case - success

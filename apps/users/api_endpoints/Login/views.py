@@ -5,7 +5,6 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_404_NOT_FOUND
 
 from apps.common.utils import send_activation_code_via_sms
 from apps.users.api_endpoints.Login.serializers import UserLoginSmsSerializer
@@ -28,7 +27,7 @@ class UserLoginSendSMSView(GenericAPIView):
 
         # check if user account already exists
         if not self.user_exists(request):
-            return Response({"success": False, "message": _("User not found!")}, status=HTTP_404_NOT_FOUND)
+            raise ValidationError(detail={"user": _("User not found")}, code="not_found")
 
         phone = serializer.validated_data.get("phone")
         session = get_random_string(length=16)
