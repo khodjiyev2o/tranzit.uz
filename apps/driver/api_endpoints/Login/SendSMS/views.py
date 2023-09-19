@@ -5,7 +5,6 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_404_NOT_FOUND
 
 from apps.common.utils import send_activation_code_via_sms
 from apps.driver.api_endpoints.Login.SendSMS.serializers import DriverLoginSmsSerializer

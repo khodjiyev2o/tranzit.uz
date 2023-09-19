@@ -12,8 +12,7 @@ class DriverOrderAcceptSerializer(serializers.Serializer):
             order = Order.objects.get(pk=order_id, status=Order.OrderStatus.REQUESTED)
         except Order.DoesNotExist:
             raise serializers.ValidationError(
-                detail={"order": _("Order not found or already taken by another driver.")},
-                code="not_found"
+                detail={"order": _("Order not found or already taken by another driver.")}, code="not_found"
             )
 
         return order

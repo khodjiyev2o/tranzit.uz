@@ -1,6 +1,10 @@
 from django.urls import path
 
-from apps.common.views import CarModelListView, CitiesListView, FrontTranslationListAPIView
+from apps.common.views import (
+    CarModelListView,
+    CitiesListView,
+    FrontTranslationListAPIView,
+)
 
 
 urlpatterns = [

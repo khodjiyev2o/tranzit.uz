@@ -43,4 +43,4 @@ def test_driver_send_sms_wrong_code(client):
     response = client.post(url, data=data, content_type="application/json")
 
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json()['errors'][0]['code'] == 'code_invalid'
+    assert response.json()["errors"][0]["code"] == "code_invalid"

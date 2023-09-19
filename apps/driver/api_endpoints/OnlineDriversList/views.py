@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from apps.driver.api_endpoints.OnlineDriversList.serializers import (
     OnlineDriverListTripSerializer,
 )
-from apps.driver.models import Driver, DriverStatus
+from apps.driver.models import DriverStatus
 from apps.order.models import Trip
 
 

@@ -22,7 +22,7 @@ def test_driver_send_sms_for_register_timeout_error(client):
     }
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert response.json()["errors"][0]['code'] == 'phone_timeout'
+    assert response.json()["errors"][0]["code"] == "phone_timeout"
 
 
 @pytest.mark.django_db
@@ -33,5 +33,4 @@ def test_driver_send_sms_for_register_driver_exists(client, new_driver):
     }
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()["errors"][0]['code'] == 'driver_already_exists'
-
+    assert response.json()["errors"][0]["code"] == "driver_already_exists"

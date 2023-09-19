@@ -27,13 +27,13 @@ class OrderAcceptView(generics.GenericAPIView):
             if previous_client_order.pick_up_address.city != order.pick_up_address.city:
                 raise ValidationError(
                     detail={"address": "All client orders and deliveries should have the same pick-up address."},
-                    code="not_same"
+                    code="not_same",
                 )
         for delivery in trip.delivery.all():  # pragma: no cover
             if delivery.pick_up_address.city != order.pick_up_address.city:
                 raise ValidationError(
                     detail={"address": "All client orders and deliveries should have the same pick-up address."},
-                    code="not_same"
+                    code="not_same",
                 )
 
         if order.type == Order.OrderType.PERSON:
@@ -42,11 +42,7 @@ class OrderAcceptView(generics.GenericAPIView):
                 try:
                     self.check_validation(client=client, order=order)
                 except ValidationError:
-                    raise ValidationError(
-                        detail={"seats": "Seats conflict with another order"},
-                        code="invalid"
-                    )
-
+                    raise ValidationError(detail={"seats": "Seats conflict with another order"}, code="invalid")
 
             self.update_order_state(order=order, trip_id=trip.id, order_type=Order.OrderType.PERSON)
         else:

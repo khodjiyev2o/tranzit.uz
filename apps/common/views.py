@@ -1,11 +1,12 @@
-from apps.driver.models import CarModel, City
-from apps.common.models import FrontTranslation
 from django.utils.translation import gettext_lazy as _
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.exceptions import ValidationError
+
+from apps.common.models import FrontTranslation
+from apps.driver.models import CarModel, City
 
 
 class CarModelListView(APIView):
@@ -21,7 +22,6 @@ class CitiesListView(APIView):
 
 
 class FrontTranslationListAPIView(APIView):
-
     @swagger_auto_schema(manual_parameters=[openapi.Parameter("lang", openapi.IN_QUERY, type="string")])
     def get(self, request):
         lang = request.query_params.get("lang", None)
@@ -29,8 +29,7 @@ class FrontTranslationListAPIView(APIView):
             raise ValidationError(detail={"language": _("lang is required.")}, code="required")
 
         if lang not in ["uz", "ru", "en"]:
-            raise ValidationError(detail={"language": _("lang must be in correct format.(uz,en,ru)")},
-                                  code="invalid")
+            raise ValidationError(detail={"language": _("lang must be in correct format.(uz,en,ru)")}, code="invalid")
 
         data = FrontTranslation.objects.all().values(
             "key",
@@ -44,4 +43,4 @@ class FrontTranslationListAPIView(APIView):
         return Response(dict_data)
 
 
-__all__ = ["CitiesListView", "CarModelListView", 'FrontTranslationListAPIView']
+__all__ = ["CitiesListView", "CarModelListView", "FrontTranslationListAPIView"]

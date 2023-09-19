@@ -18,7 +18,7 @@ def send_activation_code_via_sms(phone: str, cache_type: str, session: str):
     else:
         code = generate_code()
         cache.set(generate_cache_key(cache_type, phone, session), code, timeout=120)
-        if not 'test' in sys.argv:
+        if "test" not in sys.argv:
             message_data = f"Tranzit.uz uchun <#> Tasdiqlash kodi: {code}"
             email = env.str("ESKIZ_USER_EMAIL", "samandarkhodjiyev@gmail.com")
             password = env.str("ESKIZ_USER_PASSWORD", "b9LHEGCG9fppE4B2D7rEexqk4AgYVMIUr10JKXP3")

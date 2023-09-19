@@ -1,7 +1,6 @@
-from django.db.models import Q
 from rest_framework import serializers
 
-from apps.order.models import Driver, Location, Order, Trip
+from apps.order.models import Driver, Location, Order
 
 
 class UserOrderDriverSerializer(serializers.ModelSerializer):

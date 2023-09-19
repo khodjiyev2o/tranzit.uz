@@ -4,6 +4,7 @@ from pathlib import Path
 
 import environ
 from django.utils.translation import gettext_lazy as _
+
 from config.jazzmin_conf import *  # noqa
 
 

@@ -33,7 +33,6 @@ JAZZMIN_SETTINGS: dict = {
             "permissions": ["auth.view_user"],
         },
         # external url that opens in a new window (Permissions can be added)
-        # {"name": "Support", "url": "https://github.com/farridav/django-jazzmin/issues", "new_window": True},
     ],
     #############
     # User Menu #
@@ -91,21 +90,12 @@ JAZZMIN_SETTINGS: dict = {
     ###############
     # Change view #
     ###############
-    # Render out the change view as a single form, or in tabs, current options are
-    # - single
-    # - horizontal_tabs (default)
-    # - vertical_tabs
-    # - collapsible
-    # - carousel
-    # "changeform_format": "vertical_tabs",
     "changeform_format": "horizontal_tabs",
     # override change forms on a per modeladmin basis
     "changeform_format_overrides": {
         "auth.user": "collapsible",
         "auth.group": "vertical_tabs",
     },
-    # Add a language dropdown into the admin
-    # "language_chooser": True,
 }
 
 JAZZMIN_UI_TWEAKS = {

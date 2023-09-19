@@ -5,8 +5,8 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from apps.common.utils import send_activation_code_via_sms
 
+from apps.common.utils import send_activation_code_via_sms
 from apps.users.api_endpoints.CreateAccount.serializers import (
     UserCreateAccountSerializer,
 )

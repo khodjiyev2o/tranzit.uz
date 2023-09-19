@@ -26,8 +26,8 @@ def test_send_sms_for_driver_to_login_no_existing_phone(client):
     }
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()['errors'][0]['code'] == 'phone_invalid_phone_number'
-    assert response.json()['errors'][0]['message'] == 'The phone number entered is not valid.'
+    assert response.json()["errors"][0]["code"] == "phone_invalid_phone_number"
+    assert response.json()["errors"][0]["message"] == "The phone number entered is not valid."
 
 
 @pytest.mark.django_db
@@ -38,9 +38,8 @@ def test_send_sms_for_driver_not_found(client):
     }
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()['errors'][0]['code'] == 'driver_not_found'
-    assert response.json()['errors'][0]['message'] == 'Driver not found!'
-
+    assert response.json()["errors"][0]["code"] == "driver_not_found"
+    assert response.json()["errors"][0]["message"] == "Driver not found!"
 
 
 @pytest.mark.django_db
@@ -56,4 +55,4 @@ def test_send_sms_for_driver_timeout_error(client, new_driver):
     cache.set(generate_cache_key(cache_type, phone, session), code, timeout=5)
     response = client.post(url, data=payload, content_type="application/json")
     assert response.status_code == 400
-    assert response.json()['errors'][0]['code'] == 'phone_timeout'
+    assert response.json()["errors"][0]["code"] == "phone_timeout"

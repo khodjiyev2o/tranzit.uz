@@ -14,11 +14,11 @@ Initialize Django ASGI application early to ensure the AppRegistry
 is populated before importing code that may import ORM models.
 """
 
-from channels.routing import ProtocolTypeRouter, URLRouter
+from channels.routing import ProtocolTypeRouter, URLRouter  # noqa
 
 import apps.order.routing  # noqa
 
-from .channels_middleware import JwtAuthMiddlewareStack
+from .channels_middleware import JwtAuthMiddlewareStack  # noqa
 
 
 application = ProtocolTypeRouter(
