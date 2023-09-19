@@ -29,6 +29,7 @@ LOCAL_APPS = [
 ]
 THIRD_PARTY_APPS = [
     "daphne",
+    "modeltranslation",
     "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt",

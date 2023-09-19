@@ -41,3 +41,13 @@ class UserPromocode(BaseModel):
         verbose_name_plural = _("UserPromocodes")
         db_table = "user_promocode"
         ordering = ("-id",)
+
+
+class FrontTranslation(models.Model):
+    key = models.CharField(max_length=511, verbose_name=_("Key"))
+    text = models.TextField(verbose_name=_("Text"))
+
+    class Meta:
+        db_table = "front_translation"
+        verbose_name = _("Front Translation")
+        verbose_name_plural = _("Front Translations")

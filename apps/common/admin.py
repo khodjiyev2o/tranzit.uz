@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.common.models import Promocode, UserPromocode
+from apps.common.models import Promocode, UserPromocode, FrontTranslation
 
 
 @admin.register(Promocode)
@@ -17,3 +17,21 @@ class UserPromocodeAdmin(admin.ModelAdmin):
     list_display_links = ("id", "user")
     list_filter = ("promocode",)
     search_fields = ("promocode", "user")
+
+
+@admin.register(FrontTranslation)
+class FrontTranslationAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "key",
+        "text_uz",
+        "text_ru",
+        "text_en"
+    )
+    search_fields = (
+        "key",
+        "text_uz",
+        "text_ru",
+        "text_en"
+    )
+    exclude = ("text",)
