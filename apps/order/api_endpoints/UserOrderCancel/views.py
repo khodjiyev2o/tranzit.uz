@@ -8,7 +8,6 @@ from apps.order.api_endpoints.UserOrderCancel.serializers import (
 )
 from apps.order.models import Order, Trip
 
-
 class UserOrderCancelView(GenericAPIView):
     serializer_class = UserOrderCancelSerializer
     permission_classes = [IsAuthenticated]

@@ -51,3 +51,6 @@ class FrontTranslation(models.Model):
         db_table = "front_translation"
         verbose_name = _("Front Translation")
         verbose_name_plural = _("Front Translations")
+
+    def __str__(self):
+        return f"{self.key}"
