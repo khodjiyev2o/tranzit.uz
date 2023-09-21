@@ -44,7 +44,7 @@ class UserPromocode(BaseModel):
 
 
 class FrontTranslation(models.Model):
-    key = models.CharField(max_length=511, verbose_name=_("Key"))
+    key = models.CharField(max_length=511, verbose_name=_("Key"), unique=True)
     text = models.TextField(verbose_name=_("Text"))
 
     class Meta:

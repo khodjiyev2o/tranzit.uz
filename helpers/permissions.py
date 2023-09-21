@@ -1,5 +1,5 @@
 from django.utils.translation import gettext_lazy as _
-from rest_framework import permissions
+from rest_framework import permissions, exceptions
 from rest_framework.permissions import IsAuthenticated
 
 from apps.driver.models import DriverStatus
@@ -14,14 +14,16 @@ class IsDriver(permissions.BasePermission):
             if request.user.driver:
                 return True
         except User.driver.RelatedObjectDoesNotExist:
-            return False
+            raise exceptions.ValidationError(detail={"driver": "User is not a driver"}, code="not_found")
 
 
 class IsActiveDriver(permissions.BasePermission):
     message = _("Driver is in moderation")
 
     def has_permission(self, request, view):
-        return request.user.driver.status == DriverStatus.ACTIVE
+        if request.user.driver.status != DriverStatus.ACTIVE:
+            raise exceptions.ValidationError(detail={"driver": "Driver is in moderation"}, code="in_moderation")
+        return True
 
 
 class DriverHasEnoughBalance(permissions.BasePermission):
@@ -31,7 +33,10 @@ class DriverHasEnoughBalance(permissions.BasePermission):
         """
         30000 so'm is because average cheque of client is 6000, and 4 clients will be 24000
         """
-        return request.user.driver.balance > 30000
+        if not request.user.driver.balance > 30000:
+            raise exceptions.ValidationError(detail={"driver": "Driver does not have enough balance"},
+                                             code="not_enough_balance")
+        return True
 
 
 CustomDriverPermission = [IsAuthenticated, IsDriver, IsActiveDriver, DriverHasEnoughBalance]

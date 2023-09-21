@@ -8,6 +8,7 @@ from apps.order.api_endpoints.UserOrderCancel.serializers import (
 )
 from apps.order.models import Order, Trip
 
+
 class UserOrderCancelView(GenericAPIView):
     serializer_class = UserOrderCancelSerializer
     permission_classes = [IsAuthenticated]
@@ -23,13 +24,13 @@ class UserOrderCancelView(GenericAPIView):
             if trip is not None:
                 trip.client.remove(order)
             else:
-                raise ValidationError(detail="Trip not found", code="trip_does_not_exist")
+                raise ValidationError(detail={"trip": "Trip not found"}, code="does_not_exist")
         elif order.type == Order.OrderType.DELIVERY:
             trip = Trip.objects.filter(delivery=order, status=Trip.TripStatus.ACTIVE).first()
             if trip is not None:
                 trip.delivery.remove(order)
             else:
-                raise ValidationError(detail="Trip not found", code="trip_does_not_exist")
+                raise ValidationError(detail={"trip": "Trip not found"}, code="does_not_exist")
 
         order.status = Order.OrderStatus.CANCELED
         order.save()

@@ -29,6 +29,7 @@ def test_driver_retrieve_trip(client, new_driver):
     if new_order.back_right:
         chosen_seats.append("back_right")
     response = client.post(url, data=data, **headers)
+    print(response.json())
     assert response.status_code == 200
     assert response.json()["message"] == "Order added to trip successfully."
 
