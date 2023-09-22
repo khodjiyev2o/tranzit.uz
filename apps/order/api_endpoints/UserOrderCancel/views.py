@@ -19,18 +19,14 @@ class UserOrderCancelView(GenericAPIView):
         order = serializer.validated_data["order"]
 
         if order.type == Order.OrderType.PERSON:
-
             trip = Trip.objects.filter(client=order, status=Trip.TripStatus.ACTIVE).first()
             if trip is not None:
                 trip.client.remove(order)
-            else:
-                raise ValidationError(detail={"trip": "Trip not found"}, code="does_not_exist")
+
         elif order.type == Order.OrderType.DELIVERY:
             trip = Trip.objects.filter(delivery=order, status=Trip.TripStatus.ACTIVE).first()
             if trip is not None:
                 trip.delivery.remove(order)
-            else:
-                raise ValidationError(detail={"trip": "Trip not found"}, code="does_not_exist")
 
         order.status = Order.OrderStatus.CANCELED
         order.save()

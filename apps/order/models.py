@@ -28,6 +28,15 @@ class Location(BaseModel):
 
         super().save(*args, **kwargs)
 
+    # 42.3500 - 61.5600
+    # 42.58333 - 61.93333
+
+    # 40.5800 - 40.96667 - Namangan
+    # 713400 - 71.56667
+
+    # 41.1800 - 41.30000 - TASHKENT
+    # 69.1600 - 69.26667
+
     def standardize_city_name(self, city_name):
         # Define a mapping of standardized city names
         city_mapping = {
