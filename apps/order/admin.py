@@ -36,8 +36,8 @@ class OrderAdmin(admin.ModelAdmin):
         "client_full_name",
         "client_phone_number",
         "client_pick_up_address",
-        "client_drop_off_address",
         "status",
+        "created_at",
     )
     list_display_links = ("id", "client_full_name")
     list_filter = ("status", "type")
@@ -56,13 +56,10 @@ class OrderAdmin(admin.ModelAdmin):
     def client_pick_up_address(self, obj):
         return f"{obj.pick_up_address.city} | {obj.pick_up_address.street}"
 
-    def client_drop_off_address(self, obj):
-        return f"{obj.drop_off_address.city} | {obj.drop_off_address.street}"
-
 
 @admin.register(Trip)
-class TriprAdmin(admin.ModelAdmin):
-    list_display = ("id", "driver_full_name", "status")
+class TripAdmin(admin.ModelAdmin):
+    list_display = ("id", "driver_full_name", "status", "created_at",)
     list_display_links = (
         "id",
         "driver_full_name",
