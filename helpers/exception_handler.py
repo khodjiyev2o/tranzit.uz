@@ -1,6 +1,8 @@
 from rest_framework.exceptions import ErrorDetail
 from rest_framework.serializers import as_serializer_error
 from rest_framework.views import exception_handler
+from django.core.exceptions import ValidationError as DjValidationError
+from rest_framework.exceptions import ValidationError as DRFValidationError
 
 
 def custom_exception_handler(exc, context):
@@ -17,6 +19,19 @@ def custom_exception_handler(exc, context):
 def _handle_validation_error(exc, context):
     response = exception_handler(exc, context)
     errors = as_serializer_error(exc)
+    # if exception from django itself
+    if isinstance(exc, DjValidationError):
+        # Access the error messages for each field
+        message_dict = exc.message_dict
+
+        # Convert the message_dict to a format that DRF understands
+        drf_error_dict = {field: error[0] for field, error in message_dict.items()}
+
+        # Create a DRFValidationError with the updated error dictionary
+        response = exception_handler(DRFValidationError(detail=drf_error_dict), context)
+
+        # Update the errors variable with the DRFValidationError details
+        errors = as_serializer_error(DRFValidationError(detail=drf_error_dict))
 
     if response is not None:
         response.data = {"status_code": response.status_code, "errors": []}

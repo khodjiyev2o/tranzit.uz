@@ -31,7 +31,7 @@ class DriverTripRetrieveView(RetrieveAPIView):
             .first()
         )
 
-        if trip is None:
+        if not trip:
             trip = Trip.objects.create(status=Trip.TripStatus.ACTIVE, driver=self.request.user.driver)
         return trip
 

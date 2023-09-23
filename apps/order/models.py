@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.common.models import BaseModel, UserPromocode
 from apps.driver.models import CarCategory, City, Driver
 from apps.users.models import User
+from helpers.validators import validate_uzb_boundaries, define_region_name
 
 
 class Location(BaseModel):
@@ -20,39 +21,17 @@ class Location(BaseModel):
         verbose_name = _("Location")
         verbose_name_plural = _("Locations")
 
+    def clean(self):
+        # Define the boundaries for Uzbekistan
+        latitude, longitude = float(self.latitude), float(self.longitude)
+        validate_uzb_boundaries(latitude=latitude, longitude=longitude)
+        self.city = define_region_name(latitude=latitude, longitude=longitude)
+
     def save(self, *args, **kwargs):
-        # Standardize the city name to the predefined choices
-        if self.city:
-            standardized_city = self.standardize_city_name(self.city)
-            self.city = standardized_city
+        latitude, longitude = float(self.latitude), float(self.longitude)
 
+        self.full_clean()
         super().save(*args, **kwargs)
-
-    # 42.3500 - 61.5600
-    # 42.58333 - 61.93333
-
-    # 40.5800 - 40.96667 - Namangan
-    # 713400 - 71.56667
-
-    # 41.1800 - 41.30000 - TASHKENT
-    # 69.1600 - 69.26667
-
-    def standardize_city_name(self, city_name):
-        # Define a mapping of standardized city names
-        city_mapping = {
-            "Toshkent viloyati": "Tashkent",
-            "Tashkent viloyati": "Tashkent",
-            "Namangan viloyati": "Namangan",
-            "Namangan shahar": "Namangan",
-            "Namangan shahri": "Namangan",
-            "Toshkent shahri": "Tashkent",
-            "Namangan": "Namangan",
-            "Tashkent": "Tashkent",
-            "Toshkent": "Tashkent",
-        }
-
-        # Standardize the city name if it's in the mapping, otherwise keep it unchanged
-        return city_mapping.get(city_name, "Namangan")
 
 
 class Order(BaseModel):

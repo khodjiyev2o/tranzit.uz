@@ -22,7 +22,6 @@ TEST = False
 ###################################################################
 # Django security
 ###################################################################
-
 """
 IF YOU WANT SET CSRF_TRUSTED_ORIGINS = ["*"] THEN YOU SHOULD SET:
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

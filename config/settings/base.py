@@ -18,7 +18,6 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = env.str("SECRET_KEY")
 DEBUG = True
 
-
 ALLOWED_HOSTS = ["*"]
 
 LOCAL_APPS = [
@@ -47,7 +46,6 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 ]
-
 
 INSTALLED_APPS = LOCAL_APPS + THIRD_PARTY_APPS + DJANGO_APPS
 
