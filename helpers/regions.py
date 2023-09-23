@@ -3,7 +3,7 @@ from django.db import models
 
 class NamanganBoundaries(models.FloatField):
     min_latitude = 40.21
-    max_latitude = 41.00
+    max_latitude = 41.02
     min_longitude = 70.81
     max_longitude = 71.69
 

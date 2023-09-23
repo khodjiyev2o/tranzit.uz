@@ -9,5 +9,5 @@ class LocationFactory(factory.django.DjangoModelFactory):
 
     city = factory.Faker("random_element", elements=City.choices)
     street = factory.Faker("word")
-    latitude = factory.Faker("word")
-    longitude = factory.Faker("word")
+    latitude = '40.34'
+    longitude = '70.89'

@@ -45,7 +45,7 @@ def test_accept_order_four_people(client, new_driver):
 
 @pytest.mark.django_db
 def test_accept_order_different_location_conflict_person(client, new_driver):
-    new_location = LocationFactory(city="Tashkent")
+    new_location = LocationFactory(latitude=41.34, longitude=69.74)
     new_order = OrderFactory(
         number_of_people=3, front_right=True, back_left=True, back_middle=True, pick_up_address=new_location
     )
@@ -59,7 +59,7 @@ def test_accept_order_different_location_conflict_person(client, new_driver):
     assert response.json()["message"] == "Order added to trip successfully."
 
     # 1st case - failure - person
-    new_location = LocationFactory(city="Namangan")
+    new_location = LocationFactory()
     new_order = OrderFactory(
         number_of_people=1,
         front_right=True,
@@ -78,7 +78,7 @@ def test_accept_order_different_location_conflict_person(client, new_driver):
 
 @pytest.mark.django_db
 def test_accept_order_different_location_conflict_delivery(client, new_driver):
-    new_location = LocationFactory(city="Tashkent")
+    new_location = LocationFactory(latitude=41.34, longitude=69.74)
     new_order = OrderFactory(
         type=Order.OrderType.DELIVERY,
         pick_up_address=new_location,
@@ -93,7 +93,7 @@ def test_accept_order_different_location_conflict_delivery(client, new_driver):
     assert response.json()["message"] == "Order added to trip successfully."
 
     # 1st case - failure - delivery
-    new_location = LocationFactory(city="Namangan")
+    new_location = LocationFactory()
     new_order = OrderFactory(
         type=Order.OrderType.DELIVERY,
         pick_up_address=new_location,

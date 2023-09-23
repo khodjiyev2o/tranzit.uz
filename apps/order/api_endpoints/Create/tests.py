@@ -14,14 +14,14 @@ def test_create_order(client, new_user, new_order, new_location):
         "pick_up_address": {
             "city": "Namangan",
             "street": "Olmazor",
-            "latitude": "12133333.22",
-            "longitude": "32232.333",
+            "latitude": "41.0002857",
+            "longitude": "71.67194903574192",
         },
         "drop_off_address": {
             "city": "Tashkent",
             "street": "Samarqand Darvoza 2",
-            "latitude": "12133333.22",
-            "longitude": "32232.333",
+            "latitude": "41.2988878",
+            "longitude": "69.23966386976824",
         },
         "car_category": CarCategory.COMFORT,
         "price": 120000,
