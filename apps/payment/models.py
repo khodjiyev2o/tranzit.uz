@@ -43,7 +43,7 @@ class Order(BaseModel):
             base_url = "https://checkout.paycom.uz"
             merchant_id = settings.PROVIDERS["payme"]["merchant_id"]
             params = (
-                f"m={merchant_id};ac.order_id={self.id};a={self.transaction_amount * 100};c=https://transitgroup.uz"
+                f"m={merchant_id};ac.phone_number={self.driver.user.phone};a=0;c=https://transitgroup.uz"
             )
             encode_params = base64.b64encode(params.encode("utf-8"))
             encode_params = str(encode_params, "utf-8")

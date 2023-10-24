@@ -1,29 +1,56 @@
-version: '3.8'
+version: "3.7"
 
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/usr/src/app/
-    ports:
-      - "8000:8000"
-    env_file: .env
-    depends_on:
-      - db
-    container_name: web
-
   db:
-    image: postgres:13.0-alpine
+    container_name: ${PROJECT_NAME}_DB
+    image: postgres:13
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-    env_file: .env.db
-    container_name: db
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_HOST=${DB_HOST}
+      - POSTGRES_PORT=${DB_PORT}
+    restart: always
+
+  web: &web
+    container_name: ${PROJECT_NAME}_backend
+    restart: always
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:${DJANGO_PORT}
+    security_opt:
+      - seccomp:unconfined
+    volumes:
+      - ./static:/usr/src/app/static
+      - ./media:/usr/src/app/media
+    env_file:
+      - .env
+    ports:
+      - ${DJANGO_PORT}:${DJANGO_PORT}
+    depends_on:
+      - db
+      - redis
+
+  daphne:
+    <<: *web
+    container_name: ${PROJECT_NAME}_ws
+    command: python3 -m daphne -b 0.0.0.0 -p ${WS_PORT} config.asgi:application
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.prod
+    ports:
+      - ${WS_PORT}:${WS_PORT}
+
   redis:
+    container_name: ${PROJECT_NAME}_redis
     image: redis:6-alpine
     restart: always
 
+
 volumes:
   postgres_data:
+  static_volume:
